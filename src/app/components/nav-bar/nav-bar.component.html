@@ -1,0 +1,152 @@
+<!-- Navbar Vertical -->
+
+<aside class="js-navbar-vertical-aside navbar navbar-vertical-aside navbar-vertical navbar-vertical-fixed navbar-expand-xl navbar-bordered bg-white  ">
+  <div class="navbar-vertical-container">
+    <div class="navbar-vertical-footer-offset">
+      <!-- Logo -->
+
+      <a class="navbar-brand" aria-label="Front">
+        <img class="navbar-brand-logo" src="logo.png" alt="Logo" data-hs-theme-appearance="default">
+        <img class="navbar-brand-logo" src="logo.png" alt="Logo" data-hs-theme-appearance="dark">
+        <img class="navbar-brand-logo-mini" src="logo.png" alt="Logo" data-hs-theme-appearance="default">
+        <img class="navbar-brand-logo-mini" src="logo.png" alt="Logo" data-hs-theme-appearance="dark">
+      </a>
+
+      <!-- End Logo -->
+
+      <!-- Navbar Vertical Toggle -->
+      <button type="button" class="js-navbar-vertical-aside-toggle-invoker navbar-aside-toggler">
+        <i class="bi-arrow-bar-left navbar-toggler-short-align" data-bs-template='<div class="tooltip d-none d-md-block" role="tooltip"><div class="arrow"></div><div class="tooltip-inner"></div></div>' data-bs-toggle="tooltip" data-bs-placement="right" title="Collapse"></i>
+        <i class="bi-arrow-bar-right navbar-toggler-full-align" data-bs-template='<div class="tooltip d-none d-md-block" role="tooltip"><div class="arrow"></div><div class="tooltip-inner"></div></div>' data-bs-toggle="tooltip" data-bs-placement="right" title="Expand"></i>
+      </button>
+
+      <!-- End Navbar Vertical Toggle -->
+
+      <!-- Content -->
+      <div class="navbar-vertical-content">
+        <div id="navbarVerticalMenu" class="nav nav-pills nav-vertical card-navbar-nav">
+          <div class="nav-item">
+            <a class="nav-link " href="/erp" data-placement="left">
+              <i class="bi-house-door nav-icon"></i>
+              <span class="nav-link-title">Tablero</span>
+            </a>
+          </div>
+          <!-- End Collapse -->
+
+          <span class="dropdown-header mt-4">Modulos</span>
+          <small class="bi-three-dots nav-subtitle-replacer"></small>
+
+          <!-- Collapse -->
+          <div class="navbar-nav nav-compact">
+
+          </div>
+          <div id="navbarVerticalMenuPagesMenu">
+            <!-- Collapse -->
+            <div class="nav-item">
+              <a class="nav-link " href="/erp" data-placement="left">
+                <i class="bi-stickies nav-icon"></i>
+                <span class="nav-link-title">Requisiciones</span>
+              </a>
+            </div>
+            <div class="nav-item">
+              <a class="nav-link " href="/erp" data-placement="left">
+                <i class="bi-receipt nav-icon"></i>
+                <span class="nav-link-title">Ordenes de Compra</span>
+              </a>
+            </div>
+             <!-- Collapse -->
+             <div class="nav-item">
+              <a class="nav-link dropdown-toggle " href="#navbarVerticalMenuPagesAccountMenu" role="button" data-bs-toggle="collapse" data-bs-target="#navbarVerticalMenuPagesAccountMenu" aria-expanded="false" aria-controls="navbarVerticalMenuPagesAccountMenu">
+                <i class="bi-boxes nav-icon"></i>
+                <span class="nav-link-title">Entrada de Material</span>
+              </a>
+
+              <div id="navbarVerticalMenuPagesAccountMenu" class="nav-collapse collapse " data-bs-parent="#navbarVerticalMenuPagesMenu">
+                <a class="nav-link " href="./account-settings.html">Entrada</a>
+                <a class="nav-link " href="./account-billing.html">Registros</a>
+              </div>
+            </div>
+          </div>
+          <!-- End Collapse -->
+
+          <span class="dropdown-header mt-4">Catalogos</span>
+          <small class="bi-three-dots nav-subtitle-replacer"></small>
+
+          <div class="nav-item">
+            <a class="nav-link " href="./apps-kanban.html" data-placement="left">
+              <i class="bi-kanban nav-icon"></i>
+              <span class="nav-link-title">Kanban</span>
+            </a>
+          </div>
+
+          <div class="nav-item">
+            <a class="nav-link " href="./apps-calendar.html" data-placement="left">
+              <i class="bi-calendar-week nav-icon"></i>
+              <span class="nav-link-title">Calendar</span>
+            </a>
+          </div>
+
+          <div class="nav-item">
+            <a class="nav-link " href="./apps-invoice-generator.html" data-placement="left">
+              <i class="bi-receipt nav-icon"></i>
+              <span class="nav-link-title">Invoice Generator</span>
+            </a>
+          </div>
+
+          <div class="nav-item">
+            <a class="nav-link " href="./apps-file-manager.html" data-placement="left">
+              <i class="bi-folder2-open nav-icon"></i>
+              <span class="nav-link-title">File Manager</span>
+            </a>
+          </div>
+
+          <span class="dropdown-header mt-4">Configuracion</span>
+          <small class="bi-three-dots nav-subtitle-replacer"></small>
+
+          <div class="nav-item">
+            <a class="nav-link " href="./layouts/index.html" data-placement="left">
+              <i class="bi-grid-1x2 nav-icon"></i>
+              <span class="nav-link-title">Layouts</span>
+            </a>
+          </div>
+
+        </div>
+
+      </div>
+      <!-- End Content -->
+
+      <!-- Footer -->
+      <div class="navbar-vertical-footer">
+        <ul class="navbar-vertical-footer-list">
+
+          <li class="navbar-vertical-footer-list-item">
+            <!-- Other Links -->
+            <div class="dropdown dropup">
+              <button type="button" class="btn btn-ghost-secondary btn-icon rounded-circle" id="otherLinksDropdown" data-bs-toggle="dropdown" aria-expanded="false" data-bs-dropdown-animation>
+                <i class="bi-info-circle"></i>
+              </button>
+
+              <div class="dropdown-menu navbar-dropdown-menu-borderless" aria-labelledby="otherLinksDropdown">
+                <span class="dropdown-header">Ayuda</span>
+                <a class="dropdown-item" href="#">
+                  <i class="bi-journals dropdown-item-icon"></i>
+                  <span class="text-truncate" title="Resources &amp; tutorials">Notifica Error</span>
+                </a>
+                <div class="dropdown-divider"></div>
+                <span class="dropdown-header">Contacto</span>
+                <a class="dropdown-item" href="#">
+                  <i class="bi-chat-left-dots dropdown-item-icon"></i>
+                  <span class="text-truncate" title="Contact support">Contactacta a soporte TI</span>
+                </a>
+              </div>
+            </div>
+            <!-- End Other Links -->
+          </li>
+        </ul>
+      </div>
+      <!-- End Footer -->
+    </div>
+  </div>
+</aside>
+
+<!-- End Navbar Vertical -->
