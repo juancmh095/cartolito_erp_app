@@ -5,12 +5,14 @@ import { ResetPasswordComponent } from './pages/auth/reset-password/reset-passwo
 import { ChangePasswordComponent } from './pages/auth/change-password/change-password.component';
 import { AuthGuard } from '../auth/auth-guard.guard';
 import { logoutGuard } from '../auth/logout.guard';
+import { RequisitionsComponent } from './pages/modules/requisitions/requisitions.component';
 
 export const routes: Routes = [
 
     {  path: 'erp', canActivate:[AuthGuard], component: HomeComponent,children:[
       //{  path: 'admin', component: ContainerComponent,children:[
         {  path: '', component: HomeComponent },
+        {  path: 'requisiciones', component:  RequisitionsComponent},
       ]
     },
     {  path: 'login', canActivate:[logoutGuard],component: LoginComponent },

@@ -1,0 +1,128 @@
+ <!-- Page Header -->
+ <div class="page-header">
+  <div class="row align-items-center">
+    <div class="col">
+      <h1 class="page-header-title">Requisiciones</h1>
+    </div>
+    <!-- End Col -->
+
+    <div class="col-auto">
+      <a class="btn btn-primary" href="javascript:;" data-bs-toggle="modal" data-bs-target="#modalAdd">
+        <i class="bi-file-earmark-plus me-1"></i> Nueva Requisición
+      </a>
+    </div>
+    <!-- End Col -->
+  </div>
+  <!-- End Row -->
+</div>
+<!-- End Page Header -->
+
+
+<div class="modal" id="modalAdd" tabindex="-1">
+  <div class="modal-dialog modal-dialog-scrollable modal-xl">
+    <div class="modal-content">
+      <form>
+        <div class="modal-header">
+          <h5 class="modal-title">Requisición</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+          <div class="row mb-3">
+            <div class="col">
+                <label for="solicitadoPor" class="form-label">Solicitado Por</label>
+                <input type="text" class="form-control" id="solicitadoPor" value="Vasster" readonly>
+            </div>
+          </div>
+          <div class="row mb-3">
+              <div class="col-md-3">
+                  <label for="prioridad" class="form-label">Prioridad</label>
+                  <select class="form-select" id="prioridad">
+                      <option value="">Seleccione...</option>
+                      <!-- Options here -->
+                  </select>
+              </div>
+              <div class="col-md-3">
+                  <label for="fechaEsperada" class="form-label">Fecha Esperada</label>
+                  <input type="date" class="form-control" id="fechaEsperada" value="2024-08-14">
+              </div>
+              <div class="col-md-3">
+                  <label for="sucursal" class="form-label">Sucursal</label>
+                  <select class="form-select" id="sucursal">
+                      <option value="">Seleccione una sucursal...</option>
+                      <!-- Options here -->
+                  </select>
+              </div>
+              <div class="col-md-3">
+                  <label for="cc" class="form-label">C.C.</label>
+                  <select class="form-select" id="cc">
+                      <option value="">Seleccione un cc...</option>
+                      <!-- Options here -->
+                  </select>
+              </div>
+          </div>
+          <div class="row mb-3">
+              <label class="form-label">Tipo de requerimiento</label>
+              <div class="col-12">
+                  <div class="form-check form-check-inline">
+                      <input class="form-check-input" type="checkbox" id="asociarMaquina">
+                      <label class="form-check-label" for="asociarMaquina">Asociar Máquina</label>
+                  </div>
+                  <div class="form-check form-check-inline">
+                      <input class="form-check-input" type="checkbox" id="asociarEquipoMedicion">
+                      <label class="form-check-label" for="asociarEquipoMedicion">Asociar Equipo de Medición</label>
+                  </div>
+                  <div class="form-check form-check-inline">
+                      <input class="form-check-input" type="checkbox" id="areaMantenimiento">
+                      <label class="form-check-label" for="areaMantenimiento">Area de Mantenimiento</label>
+                  </div>
+              </div>
+              <small class="form-text text-muted">Nota: Si los productos son de mantenimiento, marcar la casilla Area de mantenimiento. Si es para una máquina, marcar Asociar Máquina y seleccionar la máquina de destino.</small>
+          </div>
+          <div class="row mb-3">
+              <div class="col-md-4">
+                  <label for="producto" class="form-label">Producto</label>
+                  <select class="form-select selectMA" id="producto">
+                      <option value="">Seleccione 1 producto...</option>
+                      <option value="">Seleccione un producto...</option>
+                      <option value="">Seleccione 3 producto...</option>
+                      <option value="">Seleccione 4 producto...</option>
+                      <!-- Options here -->
+                  </select>
+              </div>
+              <div class="col-md-3">
+                  <label for="cantidad" class="form-label">Cantidad</label>
+                  <input type="number" class="form-control" id="cantidad">
+              </div>
+              <div class="col-md-3">
+                  <label for="unidadMedida" class="form-label">Unidad de Medida</label>
+                  <select class="form-select" id="unidadMedida">
+                      <option value="">Seleccione...</option>
+                      <!-- Options here -->
+                  </select>
+              </div>
+              <div class="col-md-2 pt-2">
+                <button class="btn btn-primary" style="margin-top: 1.2rem;">
+                  <i class="bi bi-plus-circle"></i>
+                </button>
+            </div>
+          </div>
+          <div class="mb-3">
+              <small class="form-text text-muted">Nota: Para cambiar de producto utilizar la opción de eliminar y agregar de nuevo.</small>
+          </div>
+          <div class="mb-3">
+              <label for="sugerenciasCompra" class="form-label">Sugerencias de compra</label>
+              <textarea class="form-control" id="sugerenciasCompra" rows="3"></textarea>
+          </div>
+          <div class="mb-3">
+              <label for="usoPrincipal" class="form-label">Uso principal</label>
+              <textarea class="form-control" id="usoPrincipal" rows="3"></textarea>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+          <button type="submit" class="btn btn-primary">Guardar</button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
