@@ -26,10 +26,6 @@ export class HomeComponent implements OnInit {
   }
 
   ngOnInit() {
-    console.log($)
-    $(".selectMA").select2({
-      tags: true
-    });
   }
 
 }

@@ -18,7 +18,7 @@
 <!-- End Page Header -->
 
 
-<div class="modal" id="modalAdd" tabindex="-1">
+<div class="modal" id="modalAdd" tabindex="-1" role="dialog" aria-hidden="true" >
   <div class="modal-dialog modal-dialog-scrollable modal-xl">
     <div class="modal-content">
       <form>
@@ -81,11 +81,11 @@
           <div class="row mb-3">
               <div class="col-md-4">
                   <label for="producto" class="form-label">Producto</label>
-                  <select class="form-select selectMA" id="producto">
-                      <option value="">Seleccione 1 producto...</option>
-                      <option value="">Seleccione un producto...</option>
-                      <option value="">Seleccione 3 producto...</option>
-                      <option value="">Seleccione 4 producto...</option>
+                  <select id="producto" class="selectized">
+                      <option value="1">Seleccione 1 producto...</option>
+                      <option value="2">Seleccione un producto...</option>
+                      <option value="3">Seleccione 3 producto...</option>
+                      <option value="4">Seleccione 4 producto...</option>
                       <!-- Options here -->
                   </select>
               </div>

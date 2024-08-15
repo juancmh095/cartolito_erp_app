@@ -6,6 +6,7 @@ import { ChangePasswordComponent } from './pages/auth/change-password/change-pas
 import { AuthGuard } from '../auth/auth-guard.guard';
 import { logoutGuard } from '../auth/logout.guard';
 import { RequisitionsComponent } from './pages/modules/requisitions/requisitions.component';
+import { OrdersComponent } from './pages/modules/orders/orders.component';
 
 export const routes: Routes = [
 
@@ -13,6 +14,7 @@ export const routes: Routes = [
       //{  path: 'admin', component: ContainerComponent,children:[
         {  path: '', component: HomeComponent },
         {  path: 'requisiciones', component:  RequisitionsComponent},
+        {  path: 'compras', component:  OrdersComponent},
       ]
     },
     {  path: 'login', canActivate:[logoutGuard],component: LoginComponent },

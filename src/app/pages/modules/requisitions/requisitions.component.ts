@@ -13,8 +13,17 @@ export class RequisitionsComponent implements OnInit{
 
   ngOnInit(){
     console.log($)
-    $(".selectMA").select2({
-      tags: true
+    $('#producto').selectize({
+      create:true,
+      onChange: function( value:any ) {
+        console.log(value)
+      }
     });
+    
+    $('.selectize-input').addClass('form-select');
+  }
+
+  changeSelectItem(value:any){
+
   }
 }
