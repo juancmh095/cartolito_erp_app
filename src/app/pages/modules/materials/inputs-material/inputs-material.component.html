@@ -1,0 +1,80 @@
+ <!-- Page Header -->
+ <div class="page-header">
+  <div class="row align-items-center">
+    <div class="col">
+      <h1 class="page-header-title">Entrada de Materiales</h1>
+    </div>
+    <!-- End Col -->
+
+  </div>
+  <!-- End Row -->
+</div>
+<!-- End Page Header -->
+<div class="row">
+  <!-- Left Section -->
+  <div class="col-md-8">
+      <div class="card p-3">
+          <h5 class="card-title text-center">OC # <span class="text-muted">2021001</span></h5>
+          <hr>
+          <div class="mb-3">
+              <label for="search" class="form-label">Buscar</label>
+              <input type="text" class="form-control" id="search" placeholder="Orden de compra">
+          </div>
+          <div class="table-responsive">
+            <table class="table text-center text-dark table-hover table-striped">
+                <thead class="table-primary">
+                    <tr>
+                        <th>Entregado</th>
+                        <th>Codigo</th>
+                        <th>Producto</th>
+                        <th>Unidad</th>
+                        <th>Cantidad</th>
+                        <th>Costo</th>
+                    </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                        <td><input type="checkbox" class="form-check-input" name="" id=""></td>
+                        <td></td>
+                        <td>Laptop HP Intel core i3</td>
+                        <td></td>
+                        <td>3</td>
+                        <td></td>
+                    </tr>
+                    <tr>
+                        <td><input type="checkbox" class="form-check-input" name="" id=""></td>
+                        <td></td>
+                        <td>Laptop HP Intel core i7</td>
+                        <td></td>
+                        <td>2</td>
+                        <td></td>
+                    </tr>
+                </tbody>
+            </table>
+          </div>
+          <div class="mb-3">
+              <label for="notes" class="form-label">Notes</label>
+              <textarea class="form-control" id="notes" rows="3" placeholder="Thanks for your business"></textarea>
+          </div>
+      </div>
+  </div>
+
+  <!-- Right Section -->
+  <div class="col-md-4">
+      <div class="card p-3">
+          <div class="form-check form-switch mb-3">
+              <input class="form-check-input" type="checkbox" id="entregaSinFactura" checked>
+              <label class="form-check-label" for="entregaSinFactura">Entrega Sin factura</label>
+          </div>
+          <div class="mb-3">
+              <label for="evidencia" class="form-label">Evidencia</label>
+              <input type="file" class="form-control" id="evidencia">
+          </div>
+          <div class="mb-3">
+              <label for="factura" class="form-label">Factura</label>
+              <input type="file" class="form-control" id="factura">
+          </div>
+          <button type="button" class="btn btn-primary w-100">Enviar</button>
+      </div>
+  </div>
+</div>

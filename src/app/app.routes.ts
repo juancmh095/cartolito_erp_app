@@ -7,6 +7,8 @@ import { AuthGuard } from '../auth/auth-guard.guard';
 import { logoutGuard } from '../auth/logout.guard';
 import { RequisitionsComponent } from './pages/modules/requisitions/requisitions.component';
 import { OrdersComponent } from './pages/modules/orders/orders.component';
+import { InputsMaterialComponent } from './pages/modules/materials/inputs-material/inputs-material.component';
+import { InputsListComponent } from './pages/modules/materials/inputs-list/inputs-list.component';
 
 export const routes: Routes = [
 
@@ -15,6 +17,8 @@ export const routes: Routes = [
         {  path: '', component: HomeComponent },
         {  path: 'requisiciones', component:  RequisitionsComponent},
         {  path: 'compras', component:  OrdersComponent},
+        {  path: 'entradas/material', component:  InputsMaterialComponent},
+        {  path: 'entradas/registros', component:  InputsListComponent},
       ]
     },
     {  path: 'login', canActivate:[logoutGuard],component: LoginComponent },
