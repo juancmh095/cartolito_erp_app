@@ -17,11 +17,169 @@
 </div>
 <!-- End Page Header -->
 
+ <!-- Card -->
+ <div class="card">
+  <!-- Header -->
+  <div class="card-header card-header-content-md-between">
+    <div class="mb-2 mb-md-0">
+      <form>
+        <!-- Search -->
+        <div class="input-group input-group-merge input-group-flush">
+          <div class="input-group-prepend input-group-text">
+            <i class="bi-search"></i>
+          </div>
+          <input id="datatableSearch" type="search" class="form-control" placeholder="Buscar" aria-label="Search users">
+        </div>
+        <!-- End Search -->
+      </form>
+    </div>
+
+    <div class="d-grid d-sm-flex gap-2">
+      <button class="btn btn-white" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasRight" aria-controls="offcanvasRight">
+        <i class="bi-filter me-1"></i> Filtros
+      </button>
+    </div>
+  </div>
+  <!-- End Header -->
+
+  <!-- Table -->
+  <div class="table-responsive datatable-custom">
+    <table id="datatable" class="table table-borderless table-thead-bordered table-nowrap table-align-middle card-table" data-hs-datatables-options='{
+             "columnDefs": [{
+                "targets": [0, 4, 9],
+                "width": "5%",
+                "orderable": false
+              }],
+             "order": [],
+             "info": {
+               "totalQty": "#datatableWithPaginationInfoTotalQty"
+             },
+             "search": "#datatableSearch",
+             "entries": "#datatableEntries",
+             "pageLength": 12,
+             "isResponsive": false,
+             "isShowPaging": false,
+             "pagination": "datatablePagination"
+           }'>
+      <thead class="thead-light">
+        <tr>
+          <th class="table-column-pe-0">Folio</th>
+          <th>solicitado Por</th>
+          <th>Fecha y Hora</th>
+          <th>Prioridad</th>
+          <th>Estatus</th>
+          <th>Observaciones</th>
+          <th>Acciones</th>
+        </tr>
+      </thead>
+
+      <tbody>
+        <tr *ngFor="let item of data">
+          <td class="table-column-pe-0">
+            <h5 class="text-inherit mb-0">-</h5>
+          </td>
+          <td>{{item.producedBy.userName}}</td>
+          <td>{{item.createDate | date:'dd/MM/yyyy  hh:mm'}}</td>
+          <td>
+            {{item.necesity}}
+          </td>
+          <td></td>
+          <td>{{item.obs}}</td>
+          <td>
+            <div class="btn-group" role="group">
+              <a class="btn btn-white btn-sm" href="./ecommerce-product-details.html">
+                <i class="bi-eye-fill me-1"></i> Ver
+              </a>
+
+              <!-- Button Group -->
+              <div class="btn-group">
+                <button type="button" class="btn btn-white btn-icon btn-sm dropdown-toggle dropdown-toggle-empty" id="productsEditDropdown1" data-bs-toggle="dropdown" aria-expanded="false"></button>
+
+                <div class="dropdown-menu dropdown-menu-end mt-1" aria-labelledby="productsEditDropdown1">
+                  <a class="dropdown-item" href="#">
+                    <i class="bi-trash dropdown-item-icon"></i> Delete
+                  </a>
+                  <a class="dropdown-item" href="#">
+                    <i class="bi-archive dropdown-item-icon"></i> Archive
+                  </a>
+                  <a class="dropdown-item" href="#">
+                    <i class="bi-upload dropdown-item-icon"></i> Publish
+                  </a>
+                  <a class="dropdown-item" href="#">
+                    <i class="bi-x-lg dropdown-item-icon"></i> Unpublish
+                  </a>
+                </div>
+              </div>
+              <!-- End Button Group -->
+            </div>
+          </td>
+        </tr>
+
+      </tbody>
+    </table>
+  </div>
+  <!-- End Table -->
+
+  <!-- Footer -->
+  <div class="card-footer">
+    <div class="row justify-content-center justify-content-sm-between align-items-sm-center">
+      <div class="col-sm mb-2 mb-sm-0">
+        <div class="d-flex justify-content-center justify-content-sm-start align-items-center">
+          <span class="me-2">Mostrar:</span>
+
+          <!-- Select -->
+          <div class="tom-select-custom">
+            <select id="datatableEntries" class="js-select form-select form-select-borderless w-auto" autocomplete="off" data-hs-tom-select-options='{
+                      "searchInDropdown": false,
+                      "hideSearch": true
+                    }'>
+              <option value="12">12</option>
+              <option value="14" selected>14</option>
+              <option value="16">16</option>
+              <option value="18">18</option>
+            </select>
+          </div>
+          <!-- End Select -->
+
+          <span class="text-secondary me-2">of</span>
+
+          <!-- Pagination Quantity -->
+          <span id="datatableWithPaginationInfoTotalQty">12312</span>
+        </div>
+      </div>
+      <!-- End Col -->
+
+      <div class="col-sm-auto">
+        <div class="d-flex justify-content-center justify-content-sm-end">
+          <!-- Pagination -->
+          <nav id="datatablePagination" aria-label="Activity pagination"></nav>
+        </div>
+      </div>
+      <!-- End Col -->
+    </div>
+    <!-- End Row -->
+  </div>
+  <!-- End Footer -->
+</div>
+<!-- End Card -->
+
+
+<div class="offcanvas offcanvas-end" tabindex="-1" id="offcanvasRight" aria-labelledby="offcanvasRightLabel">
+  <div class="offcanvas-header">
+    <h5 class="offcanvas-title" id="offcanvasRightLabel">Filtrar información</h5>
+    <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+  </div>
+  <div class="offcanvas-body">
+    ...
+  </div>
+</div>
+
+
 
 <div class="modal" id="modalAdd" tabindex="-1" role="dialog" aria-hidden="true" >
   <div class="modal-dialog modal-dialog-scrollable modal-xl">
     <div class="modal-content">
-      <form>
+      <form style="height: 100%; overflow-y: scroll;" #form (submit)="save(form)">
         <div class="modal-header">
           <h5 class="modal-title">Requisición</h5>
           <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
@@ -30,32 +188,35 @@
           <div class="row mb-3">
             <div class="col">
                 <label for="solicitadoPor" class="form-label">Solicitado Por</label>
-                <input type="text" class="form-control" id="solicitadoPor" value="Vasster" readonly>
+                <input type="text" class="form-control" id="solicitadoPor" value="JCMH" readonly>
             </div>
           </div>
           <div class="row mb-3">
               <div class="col-md-3">
                   <label for="prioridad" class="form-label">Prioridad</label>
-                  <select class="form-select" id="prioridad">
-                      <option value="">Seleccione...</option>
+                  <select class="form-select" id="prioridad" name="necesity" [(ngModel)]="model.necesity">
+                      <option value="Baja">Baja</option>
+                      <option value="Media">Media</option>
+                      <option value="Alta">Alta</option>
                       <!-- Options here -->
                   </select>
               </div>
               <div class="col-md-3">
                   <label for="fechaEsperada" class="form-label">Fecha Esperada</label>
-                  <input type="date" class="form-control" id="fechaEsperada" value="2024-08-14">
+                  <input type="date" class="form-control" id="fechaEsperada" value="2024-08-14" name="waitDate" [(ngModel)]="model.waitDate">
               </div>
               <div class="col-md-3">
                   <label for="sucursal" class="form-label">Sucursal</label>
-                  <select class="form-select" id="sucursal">
-                      <option value="">Seleccione una sucursal...</option>
+                  <select class="form-select" id="sucursal" name="branch_id" [(ngModel)]="model.branch_id">
+                      <option *ngFor="let item of catalogos.suc" value="{{item._id}}">{{item.name}}</option>
                       <!-- Options here -->
-                  </select>
-              </div>
-              <div class="col-md-3">
-                  <label for="cc" class="form-label">C.C.</label>
-                  <select class="form-select" id="cc">
+                    </select>
+                  </div>
+                  <div class="col-md-3">
+                    <label for="cc" class="form-label">C.C.</label>
+                    <select class="form-select" id="cc" name="CC" [(ngModel)]="model.CC">
                       <option value="">Seleccione un cc...</option>
+                      <option *ngFor="let item of catalogos.cc" value="{{item._id}}">{{item.value + '-' +item.name}}</option>
                       <!-- Options here -->
                   </select>
               </div>
@@ -81,28 +242,26 @@
           <div class="row mb-3">
               <div class="col-md-4">
                   <label for="producto" class="form-label">Producto</label>
-                  <select id="producto" class="selectized">
+                  <select id="producto" class="selectized" name="product" [(ngModel)]="product.product">
                       <option value=""></option>
-                      <option value="1">Seleccione 1 producto...</option>
-                      <option value="2">Seleccione un producto...</option>
-                      <option value="3">Seleccione 3 producto...</option>
-                      <option value="4">Seleccione 4 producto...</option>
+                      <option value="1">Producto 1</option>
                       <!-- Options here -->
                   </select>
               </div>
               <div class="col-md-3">
                   <label for="cantidad" class="form-label">Cantidad</label>
-                  <input type="number" class="form-control" id="cantidad">
+                  <input type="number" class="form-control" id="cantidad" name="quantity" [(ngModel)]="product.quantity">
               </div>
               <div class="col-md-3">
                   <label for="unidadMedida" class="form-label">Unidad de Medida</label>
-                  <select class="form-select" id="unidadMedida">
+                  <select class="form-select" id="unidadMedida" name="um" [(ngModel)]="product.um">
                       <option value="">Seleccione...</option>
+                      <option *ngFor="let item of catalogos.um" value="{{item.name}}">{{item.name}}</option>
                       <!-- Options here -->
                   </select>
               </div>
               <div class="col-md-2 pt-2">
-                <button class="btn btn-primary" style="margin-top: 1.2rem;">
+                <button type="button" class="btn btn-primary" style="margin-top: 1.2rem;" (click)="addProduct()">
                   <i class="bi bi-plus-circle"></i>
                 </button>
             </div>
@@ -110,13 +269,37 @@
           <div class="mb-3">
               <small class="form-text text-muted">Nota: Para cambiar de producto utilizar la opción de eliminar y agregar de nuevo.</small>
           </div>
+          <div class="mb-3" style="height: 150px; overflow-y: scroll;">
+            <table class="table table-sm table-striped" style="font-size: 10px;">
+              <thead class="text-center">
+                <th>#</th>
+                <th>Producto</th>
+                <th>Cantidad</th>
+                <th>U.M.</th>
+                <th></th>
+              </thead>
+              <tbody>
+                <tr *ngFor="let item of listProduct; let i = index">
+                  <td class="text-center">{{i+1}}</td>
+                  <td class="text-center">{{item.name}}</td>
+                  <td class="text-center">{{item.quantity}}</td>
+                  <td class="text-center">{{item.um}}</td>
+                  <td class="text-center">
+                    <button class="btn btn-danger btn-xs" style="padding: 0.05rem 0.2rem !important;">
+                      <i class="bi bi-x"></i>
+                    </button>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
           <div class="mb-3">
               <label for="sugerenciasCompra" class="form-label">Sugerencias de compra</label>
-              <textarea class="form-control" id="sugerenciasCompra" rows="3"></textarea>
+              <textarea class="form-control" id="sugerenciasCompra" rows="3" name="helpSuppliers" [(ngModel)]="model.helpSuppliers"></textarea>
           </div>
           <div class="mb-3">
               <label for="usoPrincipal" class="form-label">Uso principal</label>
-              <textarea class="form-control" id="usoPrincipal" rows="3"></textarea>
+              <textarea class="form-control" id="usoPrincipal" rows="3" name="use" [(ngModel)]="model.use"></textarea>
           </div>
         </div>
         <div class="modal-footer">

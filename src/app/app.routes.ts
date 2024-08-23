@@ -9,12 +9,13 @@ import { RequisitionsComponent } from './pages/modules/requisitions/requisitions
 import { OrdersComponent } from './pages/modules/orders/orders.component';
 import { InputsMaterialComponent } from './pages/modules/materials/inputs-material/inputs-material.component';
 import { InputsListComponent } from './pages/modules/materials/inputs-list/inputs-list.component';
+import { InitComponent } from './pages/modules/init/init.component';
 
 export const routes: Routes = [
 
     {  path: 'erp', canActivate:[AuthGuard], component: HomeComponent,children:[
       //{  path: 'admin', component: ContainerComponent,children:[
-        {  path: '', component: HomeComponent },
+        {  path: '', component: InitComponent },
         {  path: 'requisiciones', component:  RequisitionsComponent},
         {  path: 'compras', component:  OrdersComponent},
         {  path: 'entradas/material', component:  InputsMaterialComponent},
