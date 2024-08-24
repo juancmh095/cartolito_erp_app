@@ -19,6 +19,20 @@
 
  <!-- Card -->
  <div class="card">
+
+  <ul class="nav nav-tabs" id="myTab" role="tablist">
+    <li class="nav-item" role="presentation">
+      <button class="nav-link active" id="home-tab" data-bs-toggle="tab" data-bs-target="#home-tab-pane" type="button" role="tab" aria-controls="home-tab-pane" aria-selected="true">
+        Mis Requisiciónes
+      </button>
+    </li>
+    <li class="nav-item" role="presentation">
+      <button class="nav-link" id="profile-tab" data-bs-toggle="tab" data-bs-target="#profile-tab-pane" type="button" role="tab" aria-controls="profile-tab-pane" aria-selected="false">
+        Asignadas
+      </button>
+    </li>
+  </ul>
+
   <!-- Header -->
   <div class="card-header card-header-content-md-between">
     <div class="mb-2 mb-md-0">
@@ -41,6 +55,7 @@
     </div>
   </div>
   <!-- End Header -->
+
 
   <!-- Table -->
   <div class="table-responsive datatable-custom">
@@ -144,7 +159,7 @@
           <span class="text-secondary me-2">of</span>
 
           <!-- Pagination Quantity -->
-          <span id="datatableWithPaginationInfoTotalQty">12312</span>
+          <span id="datatableWithPaginationInfoTotalQty">{{data.length}}</span>
         </div>
       </div>
       <!-- End Col -->
