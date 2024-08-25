@@ -233,7 +233,7 @@
           <div class="dropdown">
             <a class="navbar-dropdown-account-wrapper" href="javascript:;" id="accountNavbarDropdown" data-bs-toggle="dropdown" aria-expanded="false" data-bs-auto-close="outside" data-bs-dropdown-animation>
               <div class="avatar avatar-sm avatar-circle">
-                <img class="avatar-img" src="https://ui-avatars.com/api/?name=Jon+Snow&background=0D8ABC&color=fff&size=128" alt="Image Description">
+                <img class="avatar-img" src="https://ui-avatars.com/api/?name={{user.userName}}&background=0D8ABC&color=fff&size=128" alt="Image Description">
                 <span class="avatar-status avatar-sm-status avatar-status-success"></span>
               </div>
             </a>
@@ -242,11 +242,11 @@
               <div class="dropdown-item-text">
                 <div class="d-flex align-items-center">
                   <div class="avatar avatar-sm avatar-circle">
-                    <img class="avatar-img" src="https://ui-avatars.com/api/?name=Jon+Snow&background=0D8ABC&color=fff&size=128" alt="Image Description">
+                    <img class="avatar-img" src="https://ui-avatars.com/api/?name={{user.userName}}&background=0D8ABC&color=fff&size=128" alt="Image Description">
                   </div>
                   <div class="flex-grow-1 ms-3">
-                    <h5 class="mb-0">Mark Williams</h5>
-                    <p class="card-text text-body">mark.com</p>
+                    <h5 class="mb-0">{{user.userName}}</h5>
+                    <p class="card-text text-body">{{user.email}}</p>
                   </div>
                 </div>
               </div>
@@ -277,7 +277,7 @@
 
               <div class="dropdown-divider"></div>
 
-              <a class="dropdown-item" href="#">Cerrar Sesion</a>
+              <a class="dropdown-item" href="" (click)="logout()">Cerrar Sesion</a>
             </div>
           </div>
           <!-- End Account -->

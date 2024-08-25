@@ -2,3 +2,10 @@
 /* styles.css o styles.scss */
 @import '../node_modules/ngx-spinner/animations/square-jelly-box.css';
 
+.datatable-custom{
+  height: 45vh !important;
+}
+
+a:hover{
+  cursor: pointer;
+}

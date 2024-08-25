@@ -7,7 +7,7 @@ export const logoutGuard: CanActivateFn = (route, state) => {
   var val:boolean = false;
   var localStorage:any = document.defaultView?.localStorage;
   if(localStorage){
-    let authToken:any = localStorage['token-erp']?localStorage['token-erp']:'';
+    let authToken:any = localStorage['cartolitoToken']?localStorage['cartolitoToken']:null;
      val = authToken === null ? true : false;
     console.log('tokenzzxxx', val);
   }

@@ -21,6 +21,12 @@ export class RequisitionsComponent implements OnInit{
   productNew:any = {};
   listProduct:any = [];
   data:any = [];
+  Asing:any = false;
+  AsingId:any = '';
+  user:any = {};
+  users:any = [];
+  userID:any = '';
+  itemSelect:any = '';
 
   constructor(
     private _utils:UtilsService,
@@ -32,7 +38,11 @@ export class RequisitionsComponent implements OnInit{
   ngOnInit(){
     this.initInput();
     this.getData();
+    this.getUser();
     this.getCatalogue();
+
+    this.user = this._utils.user();
+    this.userID = this._utils.userID();
   }
 
   initInput(){
@@ -54,6 +64,17 @@ export class RequisitionsComponent implements OnInit{
     this.data = response.data;
   }
 
+  async getDataAsing(){
+    var response = await this._api.get('requisicion',{asing:this.userID});
+    console.log(response);
+    this.data = response.data;
+  }
+
+  async getUser() {
+    var response = await this._api.get('usuarios',{delete:false});
+    this.users = response.data;
+  }
+
   async getCatalogue(){
     var response = await this._api.get('catalogos',{});
     var data = response.data;
@@ -70,8 +91,16 @@ export class RequisitionsComponent implements OnInit{
     this.product = {};
   }
 
+  async asignar() {
+    var response = await this._api.put('requisicion',{_id: this.itemSelect, asing:this.AsingId});
+    if(response.status){
+      this._utils.showAlert('success','Requisición',response.text)
+    }
+  }
+
   async save(form:any){
     console.log(form,this.model);
+    this.model.producedBy = this.userID;
     this.model.products = this.listProduct;
     var response = await this._api.post('requisicion',this.model);
     console.log(response);
