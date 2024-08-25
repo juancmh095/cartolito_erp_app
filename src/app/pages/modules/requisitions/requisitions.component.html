@@ -87,6 +87,7 @@
           <th>Fecha y Hora</th>
           <th>Prioridad</th>
           <th>Estatus</th>
+          <th>Departamento</th>
           <th>Observaciones</th>
           <th>Acciones</th>
         </tr>
@@ -95,14 +96,21 @@
       <tbody>
         <tr *ngFor="let item of data">
           <td class="table-column-pe-0">
-            <h5 class="text-inherit mb-0">-</h5>
+            <h5 class="text-inherit mb-0">{{item.folio}}</h5>
           </td>
           <td>{{item.producedBy.userName}}</td>
           <td>{{item.createDate | date:'dd/MM/yyyy  hh:mm'}}</td>
           <td>
-            {{item.necesity}}
+            <span *ngIf="item.necesity == '2'" class="badge text-bg-warning">Necesario</span>
+            <span *ngIf="item.necesity == '4'" class="badge text-bg-danger">Urgente</span>
           </td>
-          <td></td>
+          <td>
+            <span *ngIf="item.status == 0" class="badge text-bg-primary">Enviada</span>
+            <span *ngIf="item.status == 1" class="badge text-bg-secondary">En Compras</span>
+            <span *ngIf="item.status == 2" class="badge text-bg-success">Comprada</span>
+            <span *ngIf="item.status == 3" class="badge text-bg-danger">Rechazada</span>
+          </td>
+          <td>{{item.departmentId?.name}}</td>
           <td>{{item.obs}}</td>
           <td>
             <div class="btn-group" role="group">
@@ -115,11 +123,14 @@
                 <button type="button" class="btn btn-white btn-icon btn-sm dropdown-toggle dropdown-toggle-empty" id="productsEditDropdown1" data-bs-toggle="dropdown" aria-expanded="false"></button>
 
                 <div class="dropdown-menu dropdown-menu-end mt-1" aria-labelledby="productsEditDropdown1">
-                  <a class="dropdown-item" href="#">
-                    <i class="bi-trash dropdown-item-icon"></i> Delete
+                  <a class="dropdown-item">
+                    <i class="bi-trash dropdown-item-icon"></i> Eliminar
                   </a>
-                  <a class="dropdown-item" href="#">
-                    <i class="bi-archive dropdown-item-icon"></i> Archive
+                  <a class="dropdown-item" (click)="updateStatus(item._id,1)">
+                    <i class="bi-check dropdown-item-icon"></i> Aceptar
+                  </a>
+                  <a class="dropdown-item" (click)="updateStatus(item._id,3)">
+                    <i class="bi-archive dropdown-item-icon"></i> Rechazar
                   </a>
                   <a class="dropdown-item" *ngIf="!Asing" (click)="itemSelect = item._id" data-bs-toggle="modal" data-bs-target="#asingModal">
                     <i class="bi-upload dropdown-item-icon"></i> Asignar
@@ -231,15 +242,14 @@
               <div class="col-md-3">
                   <label for="prioridad" class="form-label">Prioridad</label>
                   <select class="form-select" id="prioridad" name="necesity" [(ngModel)]="model.necesity">
-                      <option value="Baja">Baja</option>
-                      <option value="Media">Media</option>
-                      <option value="Alta">Alta</option>
+                    <option value="2">Necesario</option>
+                    <option value="4">Urgente</option>
                       <!-- Options here -->
                   </select>
               </div>
               <div class="col-md-3">
                   <label for="fechaEsperada" class="form-label">Fecha Esperada</label>
-                  <input type="date" class="form-control" id="fechaEsperada" value="2024-08-14" name="waitDate" [(ngModel)]="model.waitDate">
+                  <input type="date" class="form-control" id="fechaEsperada" min="{{today}}" value="{{today}}" name="waitDate" [(ngModel)]="model.waitDate">
               </div>
               <div class="col-md-3">
                   <label for="sucursal" class="form-label">Sucursal</label>
@@ -339,7 +349,7 @@
           </div>
         </div>
         <div class="modal-footer">
-          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+          <button type="button" id="close_btn" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
           <button type="submit" class="btn btn-primary">Guardar</button>
         </div>
       </form>

@@ -15,6 +15,7 @@ declare var $:any;
 })
 export class RequisitionsComponent implements OnInit{
 
+  modulo:string = 'Requisición';
   catalogos:any = {};
   model:any = {};
   product:any = {};
@@ -27,6 +28,7 @@ export class RequisitionsComponent implements OnInit{
   users:any = [];
   userID:any = '';
   itemSelect:any = '';
+  today:any;
 
   constructor(
     private _utils:UtilsService,
@@ -40,7 +42,7 @@ export class RequisitionsComponent implements OnInit{
     this.getData();
     this.getUser();
     this.getCatalogue();
-
+    this.getToday();
     this.user = this._utils.user();
     this.userID = this._utils.userID();
   }
@@ -56,6 +58,16 @@ export class RequisitionsComponent implements OnInit{
     });
 
     $('.selectize-input').addClass('form-select');
+  }
+
+  getToday(){
+    const currentDate = new Date();
+    const year = currentDate.getFullYear();
+    const month = String(currentDate.getMonth() + 1).padStart(2, '0'); // Meses en JavaScript van de 0 a 11
+    const day = String(currentDate.getDate()).padStart(2, '0');
+
+    this.today = `${year}-${month}-${day}`;
+    this.model.waitDate = this.today;
   }
 
   async getData(){
@@ -94,7 +106,19 @@ export class RequisitionsComponent implements OnInit{
   async asignar() {
     var response = await this._api.put('requisicion',{_id: this.itemSelect, asing:this.AsingId});
     if(response.status){
-      this._utils.showAlert('success','Requisición',response.text)
+      this._utils.showAlert('success',this.modulo,response.text)
+    }
+  }
+
+  async updateStatus(id:any,status:any) {
+    var response = await this._api.put('requisicion',{_id: id, status:status});
+    if(response.status){
+      this._utils.showAlert('success',this.modulo,response.text)
+      if(this.Asing){
+        this.getDataAsing();
+      }else{
+        this.getData();
+      }
     }
   }
 
@@ -102,8 +126,22 @@ export class RequisitionsComponent implements OnInit{
     console.log(form,this.model);
     this.model.producedBy = this.userID;
     this.model.products = this.listProduct;
+    this.model.departmentId = this.user.department;
     var response = await this._api.post('requisicion',this.model);
     console.log(response);
+
+    if(response.status){
+      this._utils.showAlert('success',this.modulo,response.text)
+      this._utils.closeModal();
+      this.model = {};
+      if(this.Asing){
+        this.getDataAsing();
+      }else{
+        this.getData();
+      }
+    }else{
+      this._utils.showAlert('Error',this.modulo,response.text)
+    }
   }
 
   changeSelectItem(value:any){}

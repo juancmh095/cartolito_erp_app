@@ -2,6 +2,8 @@ import { Injectable } from '@angular/core';
 import { NgxSpinnerService } from 'ngx-spinner';
 import { ToastrService } from 'ngx-toastr';
 
+
+declare var bootstrap:any;
 @Injectable({
   providedIn: 'root'
 })
@@ -39,5 +41,15 @@ export class UtilsService {
   userID(){
     let usr:any = localStorage.getItem('cartolitoUserID');
     return usr;
+  }
+
+  closeModal(){
+    try {
+      var btn:any = document.getElementById('close_btn');
+      btn.click();
+
+    } catch (error) {
+      console.log(error);
+    }
   }
 }
