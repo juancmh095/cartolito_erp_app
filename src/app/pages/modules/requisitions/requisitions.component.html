@@ -87,6 +87,7 @@
           <th>Fecha y Hora</th>
           <th>Prioridad</th>
           <th>Estatus</th>
+          <th>Cotizado</th>
           <th>Departamento</th>
           <th>Observaciones</th>
           <th>Acciones</th>
@@ -105,16 +106,20 @@
             <span *ngIf="item.necesity == '4'" class="badge text-bg-danger">Urgente</span>
           </td>
           <td>
-            <span *ngIf="item.status == 0" class="badge text-bg-primary">Enviada</span>
+            <span *ngIf="item.status == 0" class="badge text-bg-primary">Por Aprobar</span>
             <span *ngIf="item.status == 1" class="badge text-bg-secondary">En Compras</span>
             <span *ngIf="item.status == 2" class="badge text-bg-success">Comprada</span>
-            <span *ngIf="item.status == 3" class="badge text-bg-danger">Rechazada</span>
+            <span *ngIf="item.status == 3" class="badge text-bg-danger">Declinada</span>
+          </td>
+          <td>
+            <span *ngIf="!item.quo" class="badge text-bg-info">Por Cotizar</span>
+            <span *ngIf="item.quo" class="badge text-bg-success">Cotizando</span>
           </td>
           <td>{{item.departmentId?.name}}</td>
           <td>{{item.obs}}</td>
           <td>
             <div class="btn-group" role="group">
-              <a class="btn btn-white btn-sm" href="./ecommerce-product-details.html">
+              <a class="btn btn-white btn-sm" (click)="showReq(item)" data-bs-toggle="modal" data-bs-target="#showReq">
                 <i class="bi-eye-fill me-1"></i> Ver
               </a>
 
@@ -123,17 +128,20 @@
                 <button type="button" class="btn btn-white btn-icon btn-sm dropdown-toggle dropdown-toggle-empty" id="productsEditDropdown1" data-bs-toggle="dropdown" aria-expanded="false"></button>
 
                 <div class="dropdown-menu dropdown-menu-end mt-1" aria-labelledby="productsEditDropdown1">
-                  <a class="dropdown-item">
+                  <a class="dropdown-item" (click)="update(item._id,{delete:true})">
                     <i class="bi-trash dropdown-item-icon"></i> Eliminar
                   </a>
                   <a class="dropdown-item" (click)="updateStatus(item._id,1)">
-                    <i class="bi-check dropdown-item-icon"></i> Aceptar
+                    <i class="bi-check dropdown-item-icon"></i> Aprobar
                   </a>
                   <a class="dropdown-item" (click)="updateStatus(item._id,3)">
-                    <i class="bi-archive dropdown-item-icon"></i> Rechazar
+                    <i class="bi-archive dropdown-item-icon"></i> Declinar
                   </a>
                   <a class="dropdown-item" *ngIf="!Asing" (click)="itemSelect = item._id" data-bs-toggle="modal" data-bs-target="#asingModal">
                     <i class="bi-upload dropdown-item-icon"></i> Asignar
+                  </a>
+                  <a class="dropdown-item" *ngIf="!item.quo" (click)="update(item._id,{quo:true})">
+                    <i class="bi-list-check dropdown-item-icon"></i> Cotizar
                   </a>
                 </div>
               </div>
@@ -197,7 +205,32 @@
     <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
   </div>
   <div class="offcanvas-body">
-    ...
+    <form (submit)="buscar()">
+      <div class="row">
+        <div class="col-12">
+          <div class="mb-3">
+            <label for="exampleFormControlInput1" class="form-label">Folio</label>
+            <input type="text" class="form-control" id="exampleFormControlInput1" placeholder="Buscar por # folio" name="folio" [(ngModel)]="filtro.folio">
+          </div>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-12">
+          <label for="exampleFormControlInput1" class="form-label">Buscar por Usuario</label>
+          <select class="form-select" name="producedBy" [(ngModel)]="filtro.producedBy">
+            <option *ngFor="let item of users" value="{{item._id}}">{{item.email}}</option>
+          </select>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-6">
+          <button class="btn btn-info mt-3" type="submit" data-bs-dismiss="offcanvas" aria-label="Close">Aplicar</button>
+        </div>
+        <div class="col-6">
+          <button class="btn btn-dark mt-3" type="button" (click)="filtro={}">Limpiar</button>
+        </div>
+      </div>
+    </form>
   </div>
 </div>
 
@@ -355,4 +388,129 @@
       </form>
     </div>
   </div>
+</div>
+
+<div class="modal fade bd-example-modal-lg2" id="showReq" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel"
+	aria-hidden="true">
+	<div class="modal-dialog modal-lg">
+		<div class="modal-content">
+			<div class="modal-header">
+				<h5 class="modal-title">Productos Solicitados</h5>
+				<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+			</div>
+			<div class="card">
+				<div class="card-body">
+
+
+          <ul class="nav nav-tabs" id="myTab" role="tablist">
+            <li class="nav-item" role="presentation">
+              <button class="nav-link active" id="home-tab" data-bs-toggle="tab" data-bs-target="#home-tab-pane" type="button" role="tab" aria-controls="home-tab-pane" aria-selected="true">
+                Productos Solicitados
+              </button>
+            </li>
+            <li class="nav-item" role="presentation">
+              <button class="nav-link" id="profile-tab" data-bs-toggle="tab" data-bs-target="#profile-tab-pane" type="button" role="tab" aria-controls="profile-tab-pane" aria-selected="false">
+                Información de Requerimiento
+              </button>
+            </li>
+          </ul>
+          <div class="tab-content" id="myTabContent">
+            <div class="tab-pane fade show active" id="home-tab-pane" role="tabpanel" aria-labelledby="home-tab" tabindex="0">
+              <div class="mt-3 mb-3">
+                <h5><strong>Folio:</strong> {{requisicion.folio}}</h5>
+                <h5><strong>Solicitante:</strong> {{requisicion.producedBy?.userName}}</h5>
+                <h5><strong>Autorizado por:</strong> {{requisicion.auth?requisicion.auth.userName:'N/A'}}</h5>
+                <h5><strong>Realizado:</strong> {{requisicion.createDate | date : "dd/MM/yyyy"}} a las
+                  {{requisicion.createDate | date : "HH:mm:ss"}}</h5>
+              </div>
+							<table class="table table-hover">
+								<thead>
+									<tr class="">
+										<th>#</th>
+										<th>Producto</th>
+										<th>Codigo</th>
+										<th>No. Producto</th>
+										<th>Unidad</th>
+										<th>Cantidad</th>
+										<th>Máquina</th>
+									</tr>
+								</thead>
+								<tbody>
+									<tr *ngFor="let item of requisicion.products; let i = index">
+										<td>{{i+1}}</td>
+										<td>{{item.name}}</td>
+										<td>{{item.code?item.code:'N/A'}}</td>
+										<td>{{item.num?item.num: 'N/A'}}</td>
+										<td>{{item.um}}</td>
+										<td>{{item.quantity}}</td>
+										<td>{{item.machineName?item.machineName:'N/A'}}</td>
+									</tr>
+								</tbody>
+							</table>
+							<div id="info-req" class="hidden">
+								<div class="form-row">
+									<div class="form-group col-md-12">
+										<label for=""><strong>Sugerencias de compra</strong></label>
+										<p class="p-info">{{requisicion.helpSuppliers?requisicion.helpSuppliers:"Información No Registrada"}}</p>
+									</div>
+								</div>
+								<div class="form-row">
+									<div class="form-group col-md-12">
+										<label for=""><strong>Uso principal</strong></label>
+										<p class="p-info">{{requisicion.use?requisicion.use:"Información No Registrada"}}</p>
+									</div>
+								</div>
+								<div class="form-row">
+									<div class="form-group col-md-12">
+										<label for=""><strong>Maquina</strong></label>
+										<p class="p-info">{{requisicion.machineId?requisicion.machineId.name:"Información No Registrada"}}</p>
+										<p class="p-info"><strong>C.C
+											</strong>{{requisicion.machineId?requisicion.machineId.cc:requisicion.CC?.name}}</p>
+									</div>
+								</div>
+								<div class="form-row">
+									<div class="form-group col-md-12">
+										<label for=""><strong>Fecha Esperada del Usuario</strong></label>
+										<p class="p-info">{{requisicion.waitDate | date: "dd-MM-yyyy"}}</p>
+									</div>
+								</div>
+							</div>
+            </div>
+            <div class="tab-pane fade" id="profile-tab-pane" role="tabpanel" aria-labelledby="profile-tab" tabindex="0">
+              <div class="form-row">
+								<div class="form-group col-md-12">
+									<label for=""><strong>Sugerencias de compra</strong></label>
+									<p class="p-info">{{requisicion.helpSuppliers?requisicion.helpSuppliers:"Información No Registrada"}}</p>
+								</div>
+							</div>
+							<div class="form-row">
+								<div class="form-group col-md-12">
+									<label for=""><strong>Uso principal</strong></label>
+									<p class="p-info">{{requisicion.use?requisicion.use:"Información No Registrada"}}</p>
+								</div>
+							</div>
+							<div class="form-row">
+								<div class="form-group col-md-12">
+									<label for=""><strong>Maquina</strong></label>
+									<p class="p-info">{{requisicion.machineId?requisicion.machineId.name:"Información No Registrada"}}</p>
+									<p class="p-info"><strong>C.C
+										</strong>{{requisicion.machineId?requisicion.machineId.cc:requisicion.CC?.name}}</p>
+								</div>
+							</div>
+							<div class="form-row">
+								<div class="form-group col-md-12">
+									<label for=""><strong>Fecha Esperada del Usuario</strong></label>
+									<p class="p-info">{{requisicion.waitDate | date: "dd-MM-yyyy"}}</p>
+								</div>
+							</div>
+            </div>
+          </div>
+				</div>
+			</div>
+			<div class="modal-footer">
+				<button type="button" class="btn btn-dark" (click)="print()"><span class="fa fa-print"></span>
+					Imprimir</button>
+			</div>
+		</div>
+	</div>
 </div>

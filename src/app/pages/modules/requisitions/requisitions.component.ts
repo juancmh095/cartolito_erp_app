@@ -29,6 +29,8 @@ export class RequisitionsComponent implements OnInit{
   userID:any = '';
   itemSelect:any = '';
   today:any;
+  filtro:any = {};
+  requisicion:any = {};
 
   constructor(
     private _utils:UtilsService,
@@ -71,13 +73,13 @@ export class RequisitionsComponent implements OnInit{
   }
 
   async getData(){
-    var response = await this._api.get('requisicion',{});
+    var response = await this._api.get('requisicion',{delete:false});
     console.log(response);
     this.data = response.data;
   }
 
   async getDataAsing(){
-    var response = await this._api.get('requisicion',{asing:this.userID});
+    var response = await this._api.get('requisicion',{asing:this.userID,delete:false});
     console.log(response);
     this.data = response.data;
   }
@@ -111,7 +113,7 @@ export class RequisitionsComponent implements OnInit{
   }
 
   async updateStatus(id:any,status:any) {
-    var response = await this._api.put('requisicion',{_id: id, status:status});
+    var response = await this._api.put('requisicion',{_id: id, status:status, auth: this.userID});
     if(response.status){
       this._utils.showAlert('success',this.modulo,response.text)
       if(this.Asing){
@@ -120,6 +122,29 @@ export class RequisitionsComponent implements OnInit{
         this.getData();
       }
     }
+  }
+
+  async update(id:any,item:any) {
+    item._id = id;
+    var response = await this._api.put('requisicion',item);
+    if(response.status){
+      this._utils.showAlert('success',this.modulo,response.text)
+      if(this.Asing){
+        this.getDataAsing();
+      }else{
+        this.getData();
+      }
+    }
+  }
+
+  print(){
+    console.log($(),window);
+    $('#products').printThis({
+			importCSS: true,
+			debug: false,
+			copyTagClasses: true,
+			loadCSS: "https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css"
+		})
   }
 
   async save(form:any){
@@ -145,4 +170,16 @@ export class RequisitionsComponent implements OnInit{
   }
 
   changeSelectItem(value:any){}
+
+  showReq(item:any){
+    this.requisicion = item;
+  }
+
+  async buscar(){
+    this.filtro.delete = false;
+    console.log(this.filtro);
+    var response = await this._api.get('requisicion',this.filtro);
+    console.log(response);
+    this.data = response.data;
+  }
 }
