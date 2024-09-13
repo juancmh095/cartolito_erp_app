@@ -120,8 +120,8 @@
             <td>2</td>
             <td>
               <div class="btn-group" role="group">
-                <a class="btn btn-white btn-sm" href="./ecommerce-product-details.html">
-                  <i class="bi-pencil-fill me-1"></i> Edit
+                <a class="btn btn-white btn-sm">
+                  <i class="bi-pencil-fill me-1"></i> Cambiar Estatus
                 </a>
 
                 <!-- Button Group -->
@@ -130,16 +130,13 @@
 
                   <div class="dropdown-menu dropdown-menu-end mt-1" aria-labelledby="productsEditDropdown1">
                     <a class="dropdown-item" href="#">
-                      <i class="bi-trash dropdown-item-icon"></i> Delete
+                      <i class="bi-x-lg dropdown-item-icon"></i> Cancelar
+                    </a>
+                    <a class="dropdown-item" data-bs-toggle="modal" data-bs-target="#opdfModal">
+                      <i class="bi-printer dropdown-item-icon"></i> Imprimir
                     </a>
                     <a class="dropdown-item" href="#">
-                      <i class="bi-archive dropdown-item-icon"></i> Archive
-                    </a>
-                    <a class="dropdown-item" href="#">
-                      <i class="bi-upload dropdown-item-icon"></i> Publish
-                    </a>
-                    <a class="dropdown-item" href="#">
-                      <i class="bi-x-lg dropdown-item-icon"></i> Unpublish
+                      <i class="bi-send dropdown-item-icon"></i> Enviar Por correo
                     </a>
                   </div>
                 </div>
@@ -357,3 +354,25 @@
       </div>
     </div>
   </div>
+
+
+
+
+<!-- Modal -->
+<div class="modal fade" id="opdfModal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered modal-xl">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h1 class="modal-title fs-5" id="staticBackdropLabel">PDF Orden de compra</h1>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <app-opdf></app-opdf>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+        <button type="button" class="btn btn-primary" (click)="print()">Imprimir</button>
+      </div>
+    </div>
+  </div>
+</div>

@@ -139,12 +139,8 @@ export class RequisitionsComponent implements OnInit{
 
   print(){
     console.log($(),window);
-    $('#products').printThis({
-			importCSS: true,
-			debug: false,
-			copyTagClasses: true,
-			loadCSS: "https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css"
-		})
+    this._utils.print('myTabContent');
+    
   }
 
   async save(form:any){
