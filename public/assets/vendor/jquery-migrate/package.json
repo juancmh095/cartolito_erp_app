@@ -84,5 +84,8 @@
 			"Traversing",
 			"Wrap"
 		]
+	},
+	"dependencies": {
+		"jquery-migrate": "file:"
 	}
 }

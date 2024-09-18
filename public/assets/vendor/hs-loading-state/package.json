@@ -21,5 +21,7 @@
     "webpack": "^4.41.6",
     "webpack-stream": "^5.2.1"
   },
-  "dependencies": {}
+  "dependencies": {
+    "hs-form-search": "file:"
+  }
 }

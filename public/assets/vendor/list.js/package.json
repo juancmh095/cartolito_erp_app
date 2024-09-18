@@ -23,6 +23,7 @@
     "url": "https://github.com/javve/list.js/issues"
   },
   "dependencies": {
+    "list.js": "file:",
     "string-natural-compare": "^2.0.2"
   },
   "devDependencies": {

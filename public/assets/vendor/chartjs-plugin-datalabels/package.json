@@ -67,5 +67,8 @@
   },
   "peerDependencies": {
     "chart.js": "^3.0.0"
+  },
+  "dependencies": {
+    "chartjs-plugin-datalabels": "file:"
   }
 }

@@ -66,5 +66,8 @@
   ],
   "hugo-bin": {
     "buildTags": "extended"
+  },
+  "dependencies": {
+    "bootstrap-icons": "file:"
   }
 }

@@ -4,5 +4,8 @@
     "description": "helper package",
     "main": "helpers.js",
     "module": "helpers.esm.js",
-    "types": "helpers.esm.d.ts"
+    "types": "helpers.esm.d.ts",
+    "dependencies": {
+        "chart.js-helpers": "file:"
+    }
 }

@@ -4,5 +4,8 @@
     "description": "auto registering package",
     "main": "auto.js",
     "module": "auto.esm.js",
-    "types": "auto.esm.d.ts"
+    "types": "auto.esm.d.ts",
+    "dependencies": {
+        "chart.js-auto": "file:"
+    }
 }

@@ -28,5 +28,8 @@
     "input",
     "mask"
   ],
-  "gitHead": "4cb5df3142822c5de910001a4294b764c439c478"
+  "gitHead": "4cb5df3142822c5de910001a4294b764c439c478",
+  "dependencies": {
+    "imask": "file:"
+  }
 }

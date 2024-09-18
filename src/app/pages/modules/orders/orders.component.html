@@ -56,7 +56,7 @@
             <div class="input-group-prepend input-group-text">
               <i class="bi-search"></i>
             </div>
-            <input id="datatableSearch" type="search" class="form-control" placeholder="Buscar" aria-label="Search users">
+            <input id="datatableSearch" type="search" class="form-control form-control-sm" placeholder="Buscar" aria-label="Search users">
           </div>
           <!-- End Search -->
         </form>
@@ -159,7 +159,7 @@
 
             <!-- Select -->
             <div class="tom-select-custom">
-              <select id="datatableEntries" class="js-select form-select form-select-borderless w-auto" autocomplete="off" data-hs-tom-select-options='{
+              <select id="datatableEntries" class="js-select form-select form-select-sm form-select-borderless w-auto" autocomplete="off" data-hs-tom-select-options='{
                         "searchInDropdown": false,
                         "hideSearch": true
                       }'>
@@ -205,9 +205,10 @@
 
 
   <div class="modal" id="modalAdd" tabindex="-1" role="dialog" aria-hidden="true" >
-    <div class="modal-dialog modal-dialog-scrollable modal-xl">
+    <div class="modal-dialog modal-xl">
       <div class="modal-content">
-        <form>
+        <form #myForm="ngForm" (ngSubmit)="onSubmit(myForm)" class="container">
+
           <div class="modal-header">
             <h5 class="modal-title">Requisición</h5>
             <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
@@ -215,135 +216,156 @@
           <div class="modal-body">
             <div class="row mb-3">
                 <div class="col">
-                    <label class="form-label">Solicitado por: Vasster</label>
+                    <label class="form-label form-label-sm">Solicitado por: Vasster</label>
                 </div>
             </div>
             <div class="row mb-3">
                 <div class="col">
                     <div class="form-check">
-                        <input class="form-check-input" type="checkbox" id="ligarConRequisicion">
+                        <input class="form-check-input" type="checkbox" id="ligarConRequisicion" name="useReq" [(ngModel)]="useReq">
                         <label class="form-check-label" for="ligarConRequisicion">Ligar Con Requisición</label>
                     </div>
                 </div>
+              </div>
+              <div class="row">
+                <div class="mb-3 col-4" *ngIf="useReq">
+                  <label for="folioReq" class="form-label form-label-sm">Requisition</label>
+                  <input type="text" class="form-control form-control-sm" id="folioReq" name="folioReq" [(ngModel)]="formData.folioReq">
+                </div>
             </div>
             <div class="row mb-3">
                 <div class="col-md-6">
-                    <label for="proveedor" class="form-label">Proveedor</label>
-                    <select class="form-select" id="proveedor">
-                        <option value="">Seleccione un proveedor...</option>
-                        <!-- Options here -->
+                    <label for="proveedor" class="form-label form-label-sm">Proveedor</label>
+                    <select class="form-select form-select-sm" id="providerid" name="providerid" [(ngModel)]="formData.providerid" required>
+                      <option *ngFor="let item of proveedores" value="{{item._id}}">{{item.businesName}}</option>
+                      <!-- Opciones de proveedores -->
                     </select>
                 </div>
                 <div class="col-md-6">
-                    <label for="rfc" class="form-label">RFC</label>
-                    <input type="text" class="form-control" id="rfc">
+                    <label for="rfc" class="form-label form-label-sm">RFC</label>
+                    <input type="text" class="form-control form-control-sm" id="rfc" name="RFC" [(ngModel)]="formData.RFC">
                 </div>
             </div>
             <div class="row mb-3">
                 <div class="col-md-3">
-                    <label for="fechaEsperada" class="form-label">Fecha Esperada</label>
-                    <input type="date" class="form-control" id="fechaEsperada" value="2024-08-14">
+                    <label for="fechaEsperada" class="form-label form-label-sm">Fecha Esperada</label>
+                    <input type="date" class="form-control form-control-sm" id="waitDate" name="waitDate" [(ngModel)]="formData.waitDate" required>
                 </div>
                 <div class="col-md-3">
-                    <label for="cc" class="form-label">C.C.</label>
-                    <input type="text" class="form-control" id="cc">
-                </div>
-                <div class="col-md-3">
-                    <label for="sucursal" class="form-label">Sucursal</label>
-                    <select class="form-select" id="sucursal">
-                        <option value="">Seleccione una sucursal...</option>
-                        <!-- Options here -->
+                    <label for="cc" class="form-label form-label-sm">C.C.</label>
+                    <select class="form-select form-select-sm" id="cc" name="cc" [(ngModel)]="formData.cc" required>
+                      <option *ngFor="let item of catalogos.cc" value="{{item._id}}">{{item.name}}</option>
+                      <!-- Agregar opciones según sea necesario -->
                     </select>
                 </div>
                 <div class="col-md-3">
-                    <label for="formaPago" class="form-label">Forma de pago</label>
-                    <select class="form-select" id="formaPago">
-                        <option value="">Seleccione...</option>
-                        <!-- Options here -->
+                    <label for="sucursal" class="form-label form-label-sm">Sucursal</label>
+                    <select class="form-select form-select-sm" id="branch" name="branch" [(ngModel)]="formData.branch" required>
+                      <option *ngFor="let item of catalogos.suc" value="{{item._id}}">{{item.name}}</option>
+                      <!-- Opciones de sucursales -->
+                    </select>
+                </div>
+                <div class="col-md-3">
+                    <label for="formaPago" class="form-label form-label-sm">Forma de pago</label>
+                    <select class="form-select form-select-sm" id="currency" name="currency" [(ngModel)]="formData.currency" required>
+                      <option value="">Seleccione una opción</option>
+                      <option value="CONT">Contado</option>
+                      <option value="CREDIT">Credito</option>
+                      <option value="TERM">Plazo</option>
+                      <option value="MED">50%-50%</option>
+                      <!-- Más opciones -->
                     </select>
                 </div>
             </div>
             <div class="row mb-3">
                 <div class="col-md-3">
-                    <label for="iva" class="form-label">IVA</label>
-                    <select class="form-select" id="iva">
-                        <option value="0">0%</option>
-                        <!-- Options here -->
+                    <label for="iva" class="form-label form-label-sm">IVA</label>
+                    <select name="iva" class="form-select form-select-sm" id="iva" [(ngModel)]="formData.iva" required>
+                      <option value="16">16%</option>
+                      <option value="0">0%</option>
+                      <option value="8">8%</option>
+                      <option value="0">EXCENTO</option>
                     </select>
                 </div>
                 <div class="col-md-3">
-                    <label for="divisa" class="form-label">Divisa</label>
-                    <select class="form-select" id="divisa">
-                        <option value="MXN">MXN</option>
-                        <!-- Options here -->
+                    <label for="divisa" class="form-label form-label-sm">Divisa</label>
+                    <select class="form-select form-select-sm" id="currencyType" name="currencyType" [(ngModel)]="formData.currencyType" required>
+                      <option value="">Seleccione una opción</option>
+                      <option value="MXN">MXN</option>
+                      <option value="USD">USD</option>
+                      <!-- Más opciones -->
                     </select>
+
                 </div>
+
                 <div class="col-md-3">
-                    <label for="usoPrincipal" class="form-label">Uso Principal</label>
-                    <select class="form-select" id="usoPrincipal">
-                        <option value="">Seleccione...</option>
-                        <!-- Options here -->
-                    </select>
-                </div>
-                <div class="col-md-3">
-                    <label for="flete" class="form-label">Flete</label>
-                    <input type="number" class="form-control" id="flete" value="0">
+                    <label for="flete" class="form-label form-label-sm">Flete</label>
+                    <input type="number" class="form-control form-control-sm" id="flete" name="flete" [(ngModel)]="formData.flete" required>
                 </div>
             </div>
             <div class="row mb-3">
                 <div class="col-md-3">
-                    <label for="ivaRetenido" class="form-label">IVA retenido</label>
-                    <select class="form-select" id="ivaRetenido">
-                        <option value="0">0%</option>
-                        <!-- Options here -->
+                    <label for="ivaRetenido" class="form-label form-label-sm">IVA retenido</label>
+                    <select name="iva" class="form-select form-select-sm" id="ivaRetenido" [(ngModel)]="formData.ivaR" required>
+                      <option value="0">0%</option>
+                      <option value="4">4%</option>
+                      <option value="6">6%</option>
                     </select>
                 </div>
                 <div class="col-md-3">
-                    <label for="descuento" class="form-label">Descuento</label>
-                    <input type="number" class="form-control" id="descuento" value="0">
+                    <label for="descuento" class="form-label form-label-sm">Descuento</label>
+                    <input type="number" class="form-control form-control-sm" id="descuento" name="descuento" [(ngModel)]="formData.descuento">
                 </div>
                 <div class="col-md-3">
-                    <label for="maquina" class="form-label">Máquina</label>
-                    <select class="form-select" id="maquina">
-                        <option value="">Seleccione...</option>
-                        <!-- Options here -->
+                    <label for="maquina" class="form-label form-label-sm">Máquina</label>
+                    <select class="form-select form-select-sm" id="machineId" name="machineId" [(ngModel)]="formData.machineId" required>
+                      <option *ngFor="let item of maquinas" value="{{item._id}}">{{item.description + ' ' +item.modelS}}</option>
+                      <!-- Opciones de máquinas -->
                     </select>
                 </div>
                 <div class="col-md-3">
-                    <label for="isr" class="form-label">ISR</label>
-                    <input type="number" class="form-control" id="isr" value="0">
+                    <label for="isr" class="form-label form-label-sm">ISR</label>
+                    <input type="number" class="form-control form-control-sm" id="isr" name="isr" [(ngModel)]="formData.isr">
                 </div>
+                <div class="col-12">
+                  <label for="usoPrincipal" class="form-label form-label-sm">Uso Principal</label>
+                  <input class="form-control form-control-sm" id="use" name="use" [(ngModel)]="formData.use">
+              </div>
             </div>
+            <hr>
+            <h4>Agregar Producto</h4>
             <div class="row mb-3">
-                <div class="col-md-3">
-                    <label for="producto" class="form-label">Producto</label>
-                    <select class="form-select" id="producto">
-                        <option value="">Seleccione un producto...</option>
+                <div class="col-md-4">
+                    <label for="producto" class="form-label form-label-sm">Producto</label>
+                    <select class="form-select form-select-sm" id="producto">
+                      <option *ngFor="let item of productos" value="{{item._id}}">{{item.title}}</option>
                         <!-- Options here -->
                     </select>
                 </div>
-                <div class="col-md-3">
-                    <label for="unidadMedida" class="form-label">Unidad de Medida</label>
-                    <select class="form-select" id="unidadMedida">
-                        <option value="">Seleccione...</option>
+                <div class="col-md-2">
+                    <label for="unidadMedida" class="form-label form-label-sm">Unidad de Medida</label>
+                    <select class="form-select form-select-sm" id="unidadMedida">
+                      <option *ngFor="let item of catalogos.um" value="{{item._id}}">{{item.name}}</option>
                         <!-- Options here -->
                     </select>
                 </div>
-                <div class="col-md-3">
-                    <label for="cantidad" class="form-label">Cantidad</label>
-                    <input type="number" class="form-control" id="cantidad">
+                <div class="col-md-2">
+                    <label for="cantidad" class="form-label form-label-sm">Cantidad</label>
+                    <input type="number" class="form-control form-control-sm" id="cantidad">
                 </div>
-                <div class="col-md-3">
-                    <label for="precio" class="form-label">Precio</label>
-                    <input type="number" class="form-control" id="precio">
+                <div class="col-md-2">
+                    <label for="precio" class="form-label form-label-sm">Precio</label>
+                    <input type="number" class="form-control form-control-sm" id="precio">
                 </div>
-                <div class="col-12 mt-2">
-                    <button type="button" class="btn btn-primary">Agregar</button>
+                <div class="col-2 mt-4">
+                    <button type="button" class="btn btn-outline-primary btn-custom mt-2">
+                      <i class="bi bi-plus-square"></i>
+                    </button>
                 </div>
             </div>
             <div class="mb-3">
-                <label for="comentarios" class="form-label">Comentarios</label>
-                <textarea class="form-control" id="comentarios" rows="3"></textarea>
+                <label for="comentsComp" class="form-label form-label-sm">Comentarios</label>
+                <textarea class="form-control form-control-sm" id="comentsComp" name="comentsComp" [(ngModel)]="formData.comentsComp"></textarea>
             </div>
           </div>
           <div class="modal-footer">

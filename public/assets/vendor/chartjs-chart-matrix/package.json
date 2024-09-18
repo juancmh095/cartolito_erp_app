@@ -77,5 +77,8 @@
   },
   "peerDependencies": {
     "chart.js": "^3.0.0"
+  },
+  "dependencies": {
+    "chartjs-chart-matrix": "file:"
   }
 }

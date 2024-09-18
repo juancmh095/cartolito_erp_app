@@ -143,5 +143,8 @@
     "gis",
     "map"
   ],
-  "license": "BSD-2-Clause"
+  "license": "BSD-2-Clause",
+  "dependencies": {
+    "leaflet": "file:"
+  }
 }
