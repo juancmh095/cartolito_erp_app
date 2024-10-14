@@ -3,13 +3,14 @@ import { UtilsService } from '../../../../services/utils.service';
 import { ApiService } from '../../../../services/api.service';
 import { FormsModule } from '@angular/forms';
 import { CommonModule, NgFor } from '@angular/common';
+import { CustomDropdownComponent } from '../../../utils/custom-dropdown/custom-dropdown.component';
 
 declare var $:any;
 
 @Component({
   selector: 'app-requisitions',
   standalone: true,
-  imports: [FormsModule,NgFor,CommonModule],
+  imports: [FormsModule,NgFor,CommonModule,CustomDropdownComponent],
   templateUrl: './requisitions.component.html',
   styleUrl: './requisitions.component.css'
 })
@@ -31,6 +32,11 @@ export class RequisitionsComponent implements OnInit{
   today:any;
   filtro:any = {};
   requisicion:any = {};
+  maquinas:any = [];
+
+  products:any = [];
+
+  selectProduct:any;
 
   constructor(
     private _utils:UtilsService,
@@ -45,8 +51,20 @@ export class RequisitionsComponent implements OnInit{
     this.getUser();
     this.getCatalogue();
     this.getToday();
+    this.get_maquinas();
+    this.get_products();
     this.user = this._utils.user();
     this.userID = this._utils.userID();
+  }
+
+  async get_maquinas(){
+    var responseMaq = await this._api.get('catalogos/maquinas',{});
+    this.maquinas = responseMaq.data;
+  }
+
+  async get_products(){
+    var response = await this._api.get('catalogos/productos',{});
+    this.products = response.data;
   }
 
   initInput(){
@@ -101,8 +119,13 @@ export class RequisitionsComponent implements OnInit{
 
   addProduct(){
     console.log(this.product);
-    this.listProduct.push(this.product);
-    this.product = {};
+    if(this.product.name && this.product.um && this.product.quantity){
+      this.listProduct.push(this.product);
+      this.product = {};
+      this.selectProduct = false;
+    }else{
+      this._utils.showAlert('error','Requisiciones','Debe completar todos los campos')
+    }
   }
 
   async asignar() {
@@ -140,7 +163,7 @@ export class RequisitionsComponent implements OnInit{
   print(){
     console.log($(),window);
     this._utils.print('myTabContent');
-    
+
   }
 
   async save(form:any){
@@ -150,6 +173,7 @@ export class RequisitionsComponent implements OnInit{
     this.model.departmentId = this.user.department;
     var response = await this._api.post('requisicion',this.model);
     console.log(response);
+    this.product = {};
 
     if(response.status){
       this._utils.showAlert('success',this.modulo,response.text)
@@ -177,5 +201,11 @@ export class RequisitionsComponent implements OnInit{
     var response = await this._api.get('requisicion',this.filtro);
     console.log(response);
     this.data = response.data;
+  }
+
+  onOptionSelected(option: any) {
+    this.product.name = option.name;
+    this.product._id = option._id;
+    console.log('Opción seleccionada:', option); // Aquí puedes manejar la opción seleccionada como desees
   }
 }

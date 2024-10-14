@@ -87,7 +87,8 @@
           <th>Fecha y Hora</th>
           <th>Prioridad</th>
           <th>Estatus</th>
-          <th>Cotizado</th>
+          <!-- <th>Cotizado</th> -->
+          <th>Asignado</th>
           <th>Departamento</th>
           <th>Observaciones</th>
           <th>Acciones</th>
@@ -111,10 +112,11 @@
             <span *ngIf="item.status == 2" class="badge text-bg-success">Comprada</span>
             <span *ngIf="item.status == 3" class="badge text-bg-danger">Declinada</span>
           </td>
-          <td>
+          <!-- <td>
             <span *ngIf="!item.quo" class="badge text-bg-info">Por Cotizar</span>
             <span *ngIf="item.quo" class="badge text-bg-success">Cotizando</span>
-          </td>
+          </td> -->
+          <td>{{item.asing?(item.asing.name?item.asing.name:item.asing.email):''}}</td>
           <td>{{item.departmentId?.name}}</td>
           <td>{{item.obs}}</td>
           <td>
@@ -304,15 +306,15 @@
               <label class="form-label">Tipo de requerimiento</label>
               <div class="col-12">
                   <div class="form-check form-check-inline">
-                      <input class="form-check-input" type="checkbox" id="asociarMaquina">
+                      <input class="form-check-input" type="checkbox" id="asociarMaquina" [(ngModel)]="model.machines" name="machines">
                       <label class="form-check-label" for="asociarMaquina">Asociar Máquina</label>
                   </div>
                   <div class="form-check form-check-inline">
-                      <input class="form-check-input" type="checkbox" id="asociarEquipoMedicion">
+                      <input class="form-check-input" type="checkbox" id="asociarEquipoMedicion" [(ngModel)]="model.quo" name="quo">
                       <label class="form-check-label" for="asociarEquipoMedicion">Asociar Equipo de Medición</label>
                   </div>
                   <div class="form-check form-check-inline">
-                      <input class="form-check-input" type="checkbox" id="areaMantenimiento">
+                      <input class="form-check-input" type="checkbox" id="areaMantenimiento" [(ngModel)]="model.maintenance" name="maintenance">
                       <label class="form-check-label" for="areaMantenimiento">Area de Mantenimiento</label>
                   </div>
               </div>
@@ -321,17 +323,17 @@
           <div class="row mb-3">
               <div class="col-md-4">
                   <label for="producto" class="form-label">Producto</label>
-                  <select id="producto" class="selectized" name="product" [(ngModel)]="product.product">
-                      <option value=""></option>
-                      <option value="1">Producto 1</option>
-                      <!-- Options here -->
-                  </select>
+                  <app-custom-dropdown *ngIf="products.length > 0"
+                    [options]="products"
+                    (optionSelected)="onOptionSelected($event)"
+                    [selected]="selectProduct"
+                  ></app-custom-dropdown>
               </div>
-              <div class="col-md-3">
+              <div class="col">
                   <label for="cantidad" class="form-label">Cantidad</label>
                   <input type="number" class="form-control" id="cantidad" name="quantity" [(ngModel)]="product.quantity">
               </div>
-              <div class="col-md-3">
+              <div class="col">
                   <label for="unidadMedida" class="form-label">Unidad de Medida</label>
                   <select class="form-select" id="unidadMedida" name="um" [(ngModel)]="product.um">
                       <option value="">Seleccione...</option>
@@ -339,6 +341,14 @@
                       <!-- Options here -->
                   </select>
               </div>
+              <div class="col" *ngIf="model.machines">
+                <label for="unidadMedida" class="form-label">Maquina</label>
+                <select class="form-select" id="unidadMedida" name="um" [(ngModel)]="product.machine">
+                    <option value="">Seleccione...</option>
+                    <option *ngFor="let item of maquinas" [ngValue]="item">{{item.description}}</option>
+                    <!-- Options here -->
+                </select>
+            </div>
               <div class="col-md-2 pt-2">
                 <button type="button" class="btn btn-primary" style="margin-top: 1.2rem;" (click)="addProduct()">
                   <i class="bi bi-plus-circle"></i>
@@ -355,6 +365,7 @@
                 <th>Producto</th>
                 <th>Cantidad</th>
                 <th>U.M.</th>
+                <th *ngIf="model.machines">Maquina</th>
                 <th></th>
               </thead>
               <tbody>
@@ -363,6 +374,7 @@
                   <td class="text-center">{{item.name}}</td>
                   <td class="text-center">{{item.quantity}}</td>
                   <td class="text-center">{{item.um}}</td>
+                  <td class="text-center" *ngIf="model.machines">{{item.machine?.name}}</td>
                   <td class="text-center">
                     <button class="btn btn-danger btn-xs" style="padding: 0.05rem 0.2rem !important;">
                       <i class="bi bi-x"></i>

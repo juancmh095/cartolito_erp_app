@@ -1,1 +1,209 @@
-<p>inputs-list works!</p>
+ <!-- Page Header -->
+ <div class="page-header">
+  <div class="row align-items-center">
+    <div class="col">
+      <h1 class="page-header-title">Registro de entregas</h1>
+    </div>
+    <!-- End Col -->
+
+    <div class="col-auto">
+    </div>
+    <!-- End Col -->
+  </div>
+  <!-- End Row -->
+</div>
+<!-- End Page Header -->
+
+<div class="row justify-content-end mb-3">
+  <div class="col-lg">
+    <!-- Datatable Info -->
+    <div id="datatableCounterInfo" style="display: none;">
+      <div class="d-sm-flex justify-content-lg-end align-items-sm-center">
+        <span class="d-block d-sm-inline-block fs-5 me-3 mb-2 mb-sm-0">
+          <span id="datatableCounter">0</span>
+          Selected
+        </span>
+        <a class="btn btn-outline-danger btn-sm mb-2 mb-sm-0 me-2" href="javascript:;">
+          <i class="bi-trash"></i> Delete
+        </a>
+        <a class="btn btn-white btn-sm mb-2 mb-sm-0 me-2" href="javascript:;">
+          <i class="bi-archive"></i> Archive
+        </a>
+        <a class="btn btn-white btn-sm mb-2 mb-sm-0 me-2" href="javascript:;">
+          <i class="bi-upload"></i> Publish
+        </a>
+        <a class="btn btn-white btn-sm mb-2 mb-sm-0" href="javascript:;">
+          <i class="bi-x-lg"></i> Unpublish
+        </a>
+      </div>
+    </div>
+    <!-- End Datatable Info -->
+  </div>
+</div>
+<!-- End Row -->
+
+<!-- Card -->
+<div class="card">
+  <!-- Header -->
+  <div class="card-header card-header-content-md-between">
+    <div class="mb-2 mb-md-0">
+      <form>
+        <!-- Search -->
+        <div class="input-group input-group-merge input-group-flush">
+          <div class="input-group-prepend input-group-text">
+            <i class="bi-search"></i>
+          </div>
+          <input id="datatableSearch" type="search" class="form-control form-control-sm" placeholder="Buscar" aria-label="Search users">
+        </div>
+        <!-- End Search -->
+      </form>
+    </div>
+
+    <div class="d-grid d-sm-flex gap-2">
+      <button class="btn btn-white" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasRight" aria-controls="offcanvasRight">
+        <i class="bi-filter me-1"></i> Filtros
+      </button>
+    </div>
+  </div>
+  <!-- End Header -->
+
+  <!-- Table -->
+  <div class="table-responsive datatable-custom m-2">
+    <table class="table table-bordered table-hover">
+      <thead class="table-primary">
+        <tr>
+          <th scope="col">Orden de Compra</th>
+          <th scope="col">Requisición</th>
+          <th scope="col">Solicitado por</th>
+          <th scope="col">Fecha de Entrega</th>
+          <th scope="col">Tipo de Entrega</th>
+          <th scope="col">Hora de Entrega</th>
+          <th scope="col">Quién recibe</th>
+          <th scope="col">Opciones</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>OC-001</td>
+          <td>REQ-001</td>
+          <td>Juan Pérez</td>
+          <td>2024-09-20</td>
+          <td>Parcial</td>
+          <td>10:00 AM</td>
+          <td>Pedro García</td>
+          <td>
+            <div class="d-flex">
+              <button class="btn btn-primary btn-sm me-2" data-bs-toggle="modal" data-bs-target="#detallesEntregaModal">Ver</button>
+            </div>
+          </td>
+        </tr>
+        <tr>
+          <td>OC-002</td>
+          <td>REQ-002</td>
+          <td>María López</td>
+          <td>2024-09-21</td>
+          <td>Completa</td>
+          <td>12:00 PM</td>
+          <td>Laura Rodríguez</td>
+          <td>
+            <div class="d-flex">
+              <button class="btn btn-primary btn-sm me-2" data-bs-toggle="modal" data-bs-target="#detallesEntregaModal">Ver</button>
+            </div>
+          </td>
+        </tr>
+        <!-- Agregar más filas según sea necesario -->
+      </tbody>
+    </table>
+  </div>
+  <!-- End Table -->
+
+  <!-- Footer -->
+  <div class="card-footer">
+    <div class="row justify-content-center justify-content-sm-between align-items-sm-center">
+      <div class="col-sm mb-2 mb-sm-0">
+        <div class="d-flex justify-content-center justify-content-sm-start align-items-center">
+          <span class="me-2">Mostrar:</span>
+
+          <!-- Select -->
+          <div class="tom-select-custom">
+            <select id="datatableEntries" class="js-select form-select form-select-sm form-select-borderless w-auto" autocomplete="off" data-hs-tom-select-options='{
+                      "searchInDropdown": false,
+                      "hideSearch": true
+                    }'>
+              <option value="12">12</option>
+              <option value="14" selected>14</option>
+              <option value="16">16</option>
+              <option value="18">18</option>
+            </select>
+          </div>
+          <!-- End Select -->
+
+          <span class="text-secondary me-2">of</span>
+
+          <!-- Pagination Quantity -->
+          <span id="datatableWithPaginationInfoTotalQty">12312</span>
+        </div>
+      </div>
+      <!-- End Col -->
+
+      <div class="col-sm-auto">
+        <div class="d-flex justify-content-center justify-content-sm-end">
+          <!-- Pagination -->
+          <nav id="datatablePagination" aria-label="Activity pagination"></nav>
+        </div>
+      </div>
+      <!-- End Col -->
+    </div>
+    <!-- End Row -->
+  </div>
+  <!-- End Footer -->
+</div>
+<!-- End Card -->
+
+
+ <!-- Modal para Detalles de Entregas -->
+ <div class="modal fade" id="detallesEntregaModal" tabindex="-1" aria-labelledby="detallesEntregaModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-lg">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="detallesEntregaModalLabel">Detalles de la Entrega</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <table class="table table-bordered table-hover">
+          <thead class="table-secondary">
+            <tr>
+              <th scope="col">Producto</th>
+              <th scope="col">Cantidad</th>
+              <th scope="col">Documento</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>Producto A</td>
+              <td>10</td>
+              <td><a href="#">Documento</a></td>
+            </tr>
+            <tr>
+              <td>Producto B</td>
+              <td>5</td>
+              <td><a href="#">Documento</a></td>
+            </tr>
+            <tr>
+              <td>Producto C</td>
+              <td>2</td>
+              <td><a href="#">Documento</a></td>
+            </tr>
+            <!-- Agregar más filas según sea necesario -->
+            <tr>
+              <td colspan="2" class="text-end"><strong>Total</strong></td>
+              <td><strong>17 pzs</strong></td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+      </div>
+    </div>
+  </div>

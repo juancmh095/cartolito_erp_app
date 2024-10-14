@@ -337,31 +337,34 @@
             <div class="row mb-3">
                 <div class="col-md-4">
                     <label for="producto" class="form-label form-label-sm">Producto</label>
-                    <select class="form-select form-select-sm" id="producto">
-                      <option *ngFor="let item of productos" value="{{item._id}}">{{item.title}}</option>
+                    <select class="form-select form-select-sm" id="producto" name="product" [(ngModel)]="product.product">
+                      <option *ngFor="let item of productos" [ngValue]="item">{{item.title}}</option>
                         <!-- Options here -->
                     </select>
                 </div>
                 <div class="col-md-2">
                     <label for="unidadMedida" class="form-label form-label-sm">Unidad de Medida</label>
-                    <select class="form-select form-select-sm" id="unidadMedida">
-                      <option *ngFor="let item of catalogos.um" value="{{item._id}}">{{item.name}}</option>
+                    <select class="form-select form-select-sm" id="unidadMedida" name="um" [(ngModel)]="product.um">
+                      <option *ngFor="let item of catalogos.um" value="{{item.name}}">{{item.name}}</option>
                         <!-- Options here -->
                     </select>
                 </div>
                 <div class="col-md-2">
                     <label for="cantidad" class="form-label form-label-sm">Cantidad</label>
-                    <input type="number" class="form-control form-control-sm" id="cantidad">
+                    <input type="number" class="form-control form-control-sm" id="cantidad" name="quantity" [(ngModel)]="product.quantity">
                 </div>
                 <div class="col-md-2">
                     <label for="precio" class="form-label form-label-sm">Precio</label>
-                    <input type="number" class="form-control form-control-sm" id="precio">
+                    <input type="number" class="form-control form-control-sm" id="precio" name="price" [(ngModel)]="product.price">
                 </div>
                 <div class="col-2 mt-4">
-                    <button type="button" class="btn btn-outline-primary btn-custom mt-2">
+                    <button type="button" class="btn btn-outline-primary btn-custom mt-2" (click)="addProduct()">
                       <i class="bi bi-plus-square"></i>
                     </button>
                 </div>
+            </div>
+            <div class="row">
+              table
             </div>
             <div class="mb-3">
                 <label for="comentsComp" class="form-label form-label-sm">Comentarios</label>

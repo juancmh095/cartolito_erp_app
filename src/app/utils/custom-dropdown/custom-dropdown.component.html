@@ -1,0 +1,19 @@
+<div class="dropdown" (focusout)="toggleDropdown()">
+  <button
+    class="btn dropdown-toggle"
+    type="button"
+    id="dropdownMenuButton"
+    aria-expanded="false"
+    (click)="toggleDropdown()"
+  >
+    {{ selected?(selectedItem.name || selectedItem.title):'Selecciona una opción' }}
+  </button>
+  <ul class="dropdown-menu" [class.show]="isDropdownOpen" aria-labelledby="dropdownMenuButton">
+    <li> <input type="text" class="form-control" (keyup)="pressTxt()" name="item" [(ngModel)]="item" (keydown.enter)="enterFunc($event)"></li>
+    <li *ngFor="let option of options">
+      <a class="dropdown-item" (click)="selectOption(option)" href="#">
+        {{ option.name?option.name:option.title }}
+      </a>
+    </li>
+  </ul>
+</div>

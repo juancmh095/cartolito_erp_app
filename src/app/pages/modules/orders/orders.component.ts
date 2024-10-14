@@ -25,6 +25,7 @@ export class OrdersComponent implements OnInit {
   maquinas:any = [];
   proveedores:any = [];
   useReq:any = false;
+  product:any = {};
 
 
   constructor(
@@ -68,5 +69,9 @@ export class OrdersComponent implements OnInit {
   }
   print(){
     this._utils.print('printAreaOPDF');
+  }
+
+  addProduct(){
+
   }
 }
