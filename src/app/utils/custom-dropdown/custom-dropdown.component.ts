@@ -60,9 +60,9 @@ export class CustomDropdownComponent implements OnInit, OnChanges {
 
   enterFunc($event:any){
     console.log(this.item);
-    this.selectedItem = {name:this.item, _id:0};
-    this.dataReal.push({name:this.item, _id:0});
-    this.options.push({name:this.item, _id:0});
+    this.selectedItem = {name:this.item, _id:0, code:0};
+    this.dataReal.push({name:this.item, _id:0,code:0});
+    this.options.push({name:this.item, _id:0,code:0});
     this.item = '';
     this.isDropdownOpen = false;
     this.options = this.dataReal;

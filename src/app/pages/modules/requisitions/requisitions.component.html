@@ -441,7 +441,6 @@
 										<th>#</th>
 										<th>Producto</th>
 										<th>Codigo</th>
-										<th>No. Producto</th>
 										<th>Unidad</th>
 										<th>Cantidad</th>
 										<th>Máquina</th>
@@ -452,10 +451,9 @@
 										<td>{{i+1}}</td>
 										<td>{{item.name}}</td>
 										<td>{{item.code?item.code:'N/A'}}</td>
-										<td>{{item.num?item.num: 'N/A'}}</td>
 										<td>{{item.um}}</td>
 										<td>{{item.quantity}}</td>
-										<td>{{item.machineName?item.machineName:'N/A'}}</td>
+										<td>{{item.machine?(item.machine.description +' '+item.machine.modelS):'N/A'}}</td>
 									</tr>
 								</tbody>
 							</table>
@@ -476,8 +474,13 @@
 									<div class="form-group col-md-12">
 										<label for=""><strong>Maquina</strong></label>
 										<p class="p-info">{{requisicion.machineId?requisicion.machineId.name:"Información No Registrada"}}</p>
-										<p class="p-info"><strong>C.C
-											</strong>{{requisicion.machineId?requisicion.machineId.cc:requisicion.CC?.name}}</p>
+										<p class="p-info" *ngIf="requisicion.machineId"><strong>C.C</strong>
+                      {{requisicion.machineId?requisicion.machineId.cc:requisicion.CC?.name}}
+                      <br>
+                      <span *ngFor="let item of requisicion.products">
+                        {{item.machine?(item.machine.description+' '+item.machine.modelS+' - '+item.machine.cc):''}}
+                      </span>
+                    </p>
 									</div>
 								</div>
 								<div class="form-row">
@@ -505,8 +508,13 @@
 								<div class="form-group col-md-12">
 									<label for=""><strong>Maquina</strong></label>
 									<p class="p-info">{{requisicion.machineId?requisicion.machineId.name:"Información No Registrada"}}</p>
-									<p class="p-info"><strong>C.C
-										</strong>{{requisicion.machineId?requisicion.machineId.cc:requisicion.CC?.name}}</p>
+									<p class="p-info"><strong>C.C</strong>
+                    {{requisicion.machineId?requisicion.machineId.cc:requisicion.CC?.name}}
+                    <br>
+                    <span *ngFor="let item of requisicion.products">
+                      {{item.machine?(item.machine.description+' '+item.machine.modelS+' - '+item.machine.cc):''}}
+                    </span>
+                  </p>
 								</div>
 							</div>
 							<div class="form-row">
