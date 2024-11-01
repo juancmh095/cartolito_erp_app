@@ -207,6 +207,7 @@ export class RequisitionsComponent implements OnInit{
     this.product.name = option.name;
     this.product._id = option._id;
     this.product.code = option.code;
+    this.product.providerId = option.providerId;
     console.log('Opción seleccionada:', option); // Aquí puedes manejar la opción seleccionada como desees
   }
 }

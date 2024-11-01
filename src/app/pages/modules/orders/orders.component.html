@@ -216,21 +216,21 @@
           <div class="modal-body">
             <div class="row mb-3">
                 <div class="col">
-                    <label class="form-label form-label-sm">Solicitado por: Vasster</label>
-                </div>
-            </div>
-            <div class="row mb-3">
-                <div class="col">
+                    <label class="form-label form-label-sm">Solicitado por: <strong>{{user.userName}}</strong></label>
                     <div class="form-check">
-                        <input class="form-check-input" type="checkbox" id="ligarConRequisicion" name="useReq" [(ngModel)]="useReq">
-                        <label class="form-check-label" for="ligarConRequisicion">Ligar Con Requisición</label>
-                    </div>
+                      <input class="form-check-input" type="checkbox" id="ligarConRequisicion" name="useReq" [(ngModel)]="useReq">
+                      <label class="form-check-label" for="ligarConRequisicion">Ligar Con Requisición</label>
+                  </div>
+                  <div class="mb-3 col-4" *ngIf="useReq">
+                    <label for="folioReq" class="form-label form-label-sm">Requisition</label>
+                    <input type="text" class="form-control form-control-sm" id="folioReq" name="folioReq" [(ngModel)]="formData.folioReq" (blur)="validateReq()">
+                  </div>
                 </div>
-              </div>
-              <div class="row">
-                <div class="mb-3 col-4" *ngIf="useReq">
-                  <label for="folioReq" class="form-label form-label-sm">Requisition</label>
-                  <input type="text" class="form-control form-control-sm" id="folioReq" name="folioReq" [(ngModel)]="formData.folioReq">
+                <div class="col" *ngIf="infoAdv">
+                  <h5 class="text-danger">Advertencia!!!</h5>
+                  <ul>
+                    <li *ngFor="let item of listAdv">{{item}}</li>
+                  </ul>
                 </div>
             </div>
             <div class="row mb-3">

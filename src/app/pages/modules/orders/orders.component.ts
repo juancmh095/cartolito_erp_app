@@ -26,7 +26,11 @@ export class OrdersComponent implements OnInit {
   proveedores:any = [];
   useReq:any = false;
   product:any = {};
-
+  user:any = {};
+  userID:any;
+  requisicionSelect:any = {};
+  infoAdv:any = false;
+  listAdv:any = [];
 
   constructor(
     private _utils:UtilsService,
@@ -37,6 +41,8 @@ export class OrdersComponent implements OnInit {
   ngOnInit(){
     this.getCatalogue()
     this.getDataList();
+    this.user = this._utils.user();
+    this.userID = this._utils.userID();
   }
 
   async getDataList(){
@@ -69,6 +75,43 @@ export class OrdersComponent implements OnInit {
   }
   print(){
     this._utils.print('printAreaOPDF');
+  }
+
+  async validateReq(){
+    var req = await this._api.get('requisicion',{folio:this.formData.folioReq})
+    this.requisicionSelect = req.data[0];
+    console.log(req,this.requisicionSelect,this.formData);
+
+    if(this.requisicionSelect && this.formData.folioReq){
+      if(this.requisicionSelect.status == 0){
+        this._utils.showAlert('error','Orden De Compra','La Requisición no ha sido aprobada')
+      }else{
+        if(this.requisicionSelect.status == 3){
+          this._utils.showAlert('error','Orden De Compra','La Requisición Rechazada')
+        }else{
+          this.productos = this.requisicionSelect.products;
+          let ccs = new Set();
+          let prov = new Set();
+
+          ccs.add(this.requisicionSelect.CC.value);
+          for (let i = 0; i < this.productos.length; i++) {
+            const element = this.productos[i];
+            if(element.machine){
+              ccs.add(element.machine.cc)
+            }
+          }
+
+          if(ccs.size > 1){
+            this.listAdv.push('Mas de un CC Asignado');
+            this.infoAdv = true;
+          }
+          console.log(ccs,ccs.size);
+        }
+
+      }
+    }else{
+      this._utils.showAlert('error','Orden De Compra','Folio de Requisición No valido')
+    }
   }
 
   addProduct(){
