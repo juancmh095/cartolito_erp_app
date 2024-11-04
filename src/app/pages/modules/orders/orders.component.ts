@@ -98,11 +98,17 @@ export class OrdersComponent implements OnInit {
             const element = this.productos[i];
             if(element.machine){
               ccs.add(element.machine.cc)
+              prov.add(element.providerId)
             }
           }
 
           if(ccs.size > 1){
             this.listAdv.push('Mas de un CC Asignado');
+            this.infoAdv = true;
+          }
+
+          if(prov.size > 1){
+            this.listAdv.push('Mas de un Proveedor Asignado');
             this.infoAdv = true;
           }
           console.log(ccs,ccs.size);
