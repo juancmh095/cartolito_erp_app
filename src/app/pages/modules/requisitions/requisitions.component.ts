@@ -34,6 +34,7 @@ export class RequisitionsComponent implements OnInit{
   requisicion:any = {};
   maquinas:any = [];
 
+
   products:any = [];
 
   selectProduct:any;

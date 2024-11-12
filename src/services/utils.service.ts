@@ -21,6 +21,12 @@ export class UtilsService {
     this._spinner.hide();
   }
 
+  today(){
+    var tday:any = (new Date().toISOString()).split('T')[0]
+    console.log('today',tday);
+    return tday;
+  }
+
   showAlert(type:any,titulo:any,msg:any){
     var opt = {
       closeButton:true,
@@ -90,6 +96,6 @@ export class UtilsService {
         printWindow.close();
     };
 
-    
+
   }
 }

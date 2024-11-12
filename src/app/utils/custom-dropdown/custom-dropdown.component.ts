@@ -40,7 +40,8 @@ export class CustomDropdownComponent implements OnInit, OnChanges {
     this.isDropdownOpen = !this.isDropdownOpen;
   }
 
-  selectOption(option: string) {
+  selectOption(option: string,$event:any) {
+    $event.preventDefault();
     this.selectedItem = option;
     this.selectedItem.name = this.selectedItem.name?this.selectedItem.name:this.selectedItem.title
     this.isDropdownOpen = false;

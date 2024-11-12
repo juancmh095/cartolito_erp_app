@@ -95,9 +95,10 @@
             <th>Req</th>
             <th>Proveedor</th>
             <th>Solicitado Por</th>
+            <th>Estatus</th>
             <th>Fecha/Hora</th>
             <th>Sub Total</th>
-            <th>Impuestos</th>
+            <th>IVA</th>
             <th>Total</th>
             <th>Moneda</th>
             <th>Acciones</th>
@@ -105,19 +106,26 @@
         </thead>
 
         <tbody>
-          <tr>
+          <tr *ngFor="let item of data">
             <td class="table-column-pe-0">
-              <h5 class="text-inherit mb-0">1234</h5>
+              <h5 class="text-inherit mb-0">{{item.folio}}</h5>
             </td>
-            <td>12345</td>
-            <td>Google</td>
+            <td>{{item.folioReq}}</td>
+            <td>{{item.providerid.businesName}}</td>
             <td>
-              jmendezh
+              {{item.user_create.userName}}
             </td>
-            <td>2384741241</td>
-            <td>$65</td>
-            <td>60</td>
-            <td>2</td>
+            <td>
+              <span *ngIf="item.status == 0" class="badge text-bg-primary">Por Aprobar</span>
+              <span *ngIf="item.status == 1" class="badge text-bg-secondary">En Compras</span>
+              <span *ngIf="item.status == 2" class="badge text-bg-success">Comprada</span>
+              <span *ngIf="item.status == 3" class="badge text-bg-danger">Declinada</span>
+            </td>
+            <td>{{item.dateCreate | date:'dd/MM/yyyy hh:mm:ss'}}</td>
+            <td>{{item.Subtotal | currency:item.currencyType }}</td>
+            <td>{{item.iva}}</td>
+            <td>{{item.Total | currency:item.currencyType }}</td>
+            <td>{{item.currencyType }}</td>
             <td>
               <div class="btn-group" role="group">
                 <a class="btn btn-white btn-sm">
@@ -132,8 +140,8 @@
                     <a class="dropdown-item" href="#">
                       <i class="bi-x-lg dropdown-item-icon"></i> Cancelar
                     </a>
-                    <a class="dropdown-item" data-bs-toggle="modal" data-bs-target="#opdfModal">
-                      <i class="bi-printer dropdown-item-icon"></i> Imprimir
+                    <a class="dropdown-item" href="{{api+'oc/pdf/'+item.folio}}" target="_blank">
+                      <i class="bi-download dropdown-item-icon"></i> Descargar
                     </a>
                     <a class="dropdown-item" href="#">
                       <i class="bi-send dropdown-item-icon"></i> Enviar Por correo
@@ -211,7 +219,7 @@
 
           <div class="modal-header">
             <h5 class="modal-title">Requisición</h5>
-            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            <button type="button" id="close_btn" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
           </div>
           <div class="modal-body">
             <div class="row mb-3">
@@ -236,25 +244,25 @@
             <div class="row mb-3">
                 <div class="col-md-6">
                     <label for="proveedor" class="form-label form-label-sm">Proveedor</label>
-                    <select class="form-select form-select-sm" id="providerid" name="providerid" [(ngModel)]="formData.providerid" required>
+                    <select class="form-select form-select-sm" id="providerid" name="providerid" [(ngModel)]="formData.providerid" required (change)="loadRFC()">
                       <option *ngFor="let item of proveedores" value="{{item._id}}">{{item.businesName}}</option>
                       <!-- Opciones de proveedores -->
                     </select>
                 </div>
                 <div class="col-md-6">
                     <label for="rfc" class="form-label form-label-sm">RFC</label>
-                    <input type="text" class="form-control form-control-sm" id="rfc" name="RFC" [(ngModel)]="formData.RFC">
+                    <input type="text" class="form-control form-control-sm" id="rfc" name="RFC" [(ngModel)]="formData.RFC" disabled>
                 </div>
             </div>
             <div class="row mb-3">
                 <div class="col-md-3">
                     <label for="fechaEsperada" class="form-label form-label-sm">Fecha Esperada</label>
-                    <input type="date" class="form-control form-control-sm" id="waitDate" name="waitDate" [(ngModel)]="formData.waitDate" required>
+                    <input type="date" class="form-control form-control-sm" id="waitDate" name="waitDate" min="{{today}}" [(ngModel)]="formData.waitDate" required>
                 </div>
                 <div class="col-md-3">
                     <label for="cc" class="form-label form-label-sm">C.C.</label>
-                    <select class="form-select form-select-sm" id="cc" name="cc" [(ngModel)]="formData.cc" required>
-                      <option *ngFor="let item of catalogos.cc" value="{{item._id}}">{{item.name}}</option>
+                    <select class="form-select form-select-sm" id="cc" name="CC" [(ngModel)]="formData.CC" required>
+                      <option *ngFor="let item of catalogos.cc" value="{{item.value + '-' + item.name}}">{{item.value}} - {{item.name}}</option>
                       <!-- Agregar opciones según sea necesario -->
                     </select>
                 </div>
@@ -280,7 +288,7 @@
             <div class="row mb-3">
                 <div class="col-md-3">
                     <label for="iva" class="form-label form-label-sm">IVA</label>
-                    <select name="iva" class="form-select form-select-sm" id="iva" [(ngModel)]="formData.iva" required>
+                    <select name="iva" class="form-select form-select-sm" id="iva" [(ngModel)]="formData.iva" required (change)="calculateTotal()">
                       <option value="16">16%</option>
                       <option value="0">0%</option>
                       <option value="8">8%</option>
@@ -300,13 +308,13 @@
 
                 <div class="col-md-3">
                     <label for="flete" class="form-label form-label-sm">Flete</label>
-                    <input type="number" class="form-control form-control-sm" id="flete" name="flete" [(ngModel)]="formData.flete" required>
+                    <input type="number" class="form-control form-control-sm" id="flete" name="flete" [(ngModel)]="formData.flete" required (change)="calculateTotal()">
                 </div>
             </div>
             <div class="row mb-3">
                 <div class="col-md-3">
                     <label for="ivaRetenido" class="form-label form-label-sm">IVA retenido</label>
-                    <select name="iva" class="form-select form-select-sm" id="ivaRetenido" [(ngModel)]="formData.ivaR" required>
+                    <select name="ivaR" class="form-select form-select-sm" id="ivaRetenido" [(ngModel)]="formData.ivaR" required (change)="calculateTotal()">
                       <option value="0">0%</option>
                       <option value="4">4%</option>
                       <option value="6">6%</option>
@@ -314,7 +322,7 @@
                 </div>
                 <div class="col-md-3">
                     <label for="descuento" class="form-label form-label-sm">Descuento</label>
-                    <input type="number" class="form-control form-control-sm" id="descuento" name="descuento" [(ngModel)]="formData.descuento">
+                    <input type="number" class="form-control form-control-sm" id="descuento" name="descuento" [(ngModel)]="formData.descuento" (change)="calculateTotal()">
                 </div>
                 <div class="col-md-3">
                     <label for="maquina" class="form-label form-label-sm">Máquina</label>
@@ -337,10 +345,11 @@
             <div class="row mb-3">
                 <div class="col-md-4">
                     <label for="producto" class="form-label form-label-sm">Producto</label>
-                    <select class="form-select form-select-sm" id="producto" name="product" [(ngModel)]="product.product">
-                      <option *ngFor="let item of productos" [ngValue]="item">{{item.title}}</option>
-                        <!-- Options here -->
-                    </select>
+                    <app-custom-dropdown *ngIf="productos.length > 0"
+                      [options]="productos"
+                      (optionSelected)="onOptionSelected($event)"
+                      [selected]="selectProduct"
+                    ></app-custom-dropdown>
                 </div>
                 <div class="col-md-2">
                     <label for="unidadMedida" class="form-label form-label-sm">Unidad de Medida</label>
@@ -374,35 +383,66 @@
 										<th>Unidad</th>
 										<th>Cantidad</th>
 										<th>Máquina</th>
+										<th>Precio</th>
+										<th>SubTotal</th>
 									</tr>
 								</thead>
 								<tbody>
-									<tr *ngFor="let item of productos; let i = index">
+									<tr *ngFor="let item of productosOrder; let i = index">
 										<td>{{i+1}}</td>
 										<td class="col-3">{{item.name}}</td>
                     <td>
-                      <input class="form-control form-control-sm" type="number" name="productos[{{i}}].width" placeholder="Ancho" [(ngModel)]="productos[i].width">
+                      <input class="form-control form-control-sm" type="number" name="productosOrder[{{i}}].width" placeholder="Ancho" [(ngModel)]="productosOrder[i].width">
                     </td>
                     <td>
-                      <input class="form-control form-control-sm" type="number" name="productos[{{i}}].length" placeholder="Largo" [(ngModel)]="productos[i].length">
+                      <input class="form-control form-control-sm" type="number" name="productosOrder[{{i}}].length" placeholder="Largo" [(ngModel)]="productosOrder[i].length">
                     </td>
 										<td>
-                      <select class="form-select form-select-sm" id="" name="productos[{{i}}].um" [(ngModel)]="productos[i].um">
+                      <select class="form-select form-select-sm" id="" name="productosOrder[{{i}}].um" [(ngModel)]="productosOrder[i].um">
                         <option *ngFor="let item of catalogos.um" value="{{item.name}}">{{item.name}}</option>
                           <!-- Options here -->
                       </select>
                     </td>
 										<td>
-                      <input type="number" class="form-control form-control-sm" id="" name="productos[{{i}}].quantity" [(ngModel)]="productos[i].quantity">
+                      <input type="number" class="form-control form-control-sm" id="" name="productosOrder[{{i}}].quantity" [(ngModel)]="productosOrder[i].quantity" (blur)="calculateTotal()">
                     </td>
 										<td>{{item.machine?(item.machine.description +' '+item.machine.modelS):'N/A'}}</td>
+                    <td>
+                      <input class="form-control form-control-sm" type="number" name="productosOrder[{{i}}].price" placeholder="Precio" [(ngModel)]="productosOrder[i].price" (blur)="calculateTotal()">
+                    </td>
+                    <td>{{(productosOrder[i].price * productosOrder[i].quantity) | currency: formData.currencyType}}</td>
 									</tr>
+                  <tr>
+                    <td colspan="7"></td>
+                    <td style="font-weight: 900;">SubTotal</td>
+                    <td>{{formData.Subtotal | currency:formData.currencyType}}</td>
+                  </tr>
+                  <tr>
+                    <td colspan="7"></td>
+                    <td style="font-weight: 900;">IVA({{formData.iva}})%</td>
+                    <td>{{formData.ivaTotal | currency:formData.currencyType}}</td>
+                  </tr>
+                  <tr>
+                    <td colspan="7"></td>
+                    <td style="font-weight: 900;">IVA Retenido({{formData.ivaR}})%</td>
+                    <td>{{formData.ivaRetTotal | currency:formData.currencyType}}</td>
+                  </tr>
+                  <tr>
+                    <td colspan="7"></td>
+                    <td style="font-weight: 900;">Descuento({{formData.descuento}})%</td>
+                    <td>- {{formData.descuentoTotal | currency:formData.currencyType}}</td>
+                  </tr>
+                  <tr>
+                    <td colspan="7"></td>
+                    <td style="font-weight: 900;">Total</td>
+                    <td>{{formData.Total | currency:formData.currencyType}}</td>
+                  </tr>
 								</tbody>
 							</table>
             </div>
             <div class="mb-3">
                 <label for="comentsComp" class="form-label form-label-sm">Comentarios</label>
-                <textarea class="form-control form-control-sm" id="comentsComp" name="comentsComp" [(ngModel)]="formData.comentsComp"></textarea>
+                <textarea class="form-control form-control-sm" id="coments" name="coments" [(ngModel)]="formData.coments"></textarea>
             </div>
           </div>
           <div class="modal-footer">
