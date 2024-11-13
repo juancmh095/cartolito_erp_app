@@ -45,9 +45,10 @@
                         <td>{{item.name}}</td>
                         <td>{{item.um}}</td>
                         <td>{{item.quantity}}</td>
-                        <td>{{item.pending?item.pending:0}}</td>
+                        <td>{{(item.quantity - (item.recibido?item.recibido:0)) <= 0?0:(item.quantity - (item.recibido?item.recibido:0))}}</td>
                         <td>
-                          <input type="number" class="form-control form-control-sm" min="0" name="item.rec" [(ngModel)]="item.rec">
+                          <input type="number" class="form-control form-control-sm" min="0" name="item.rec" [(ngModel)]="item.rec" *ngIf="(item.quantity - (item.recibido?item.recibido:0)) > 0">
+                          <span class="badge text-bg-success" *ngIf="(item.quantity - (item.recibido?item.recibido:0)) <= 0">Entregado</span>
                         </td>
                         <td>{{item.price | currency:data.currencyType}}</td>
                       </tr>
@@ -70,11 +71,11 @@
           </div>
           <div class="mb-3" *ngIf="notFact">
               <label for="evidencia" class="form-label">Evidencia</label>
-              <input type="file" class="form-control" id="evidencia" name="evidencia" (change)="loadFile($event,'ev')">
+              <input type="file" class="form-control" accept="application/pdf"  id="evidencia" name="evidencia" (change)="loadFile($event,'ev')">
           </div>
           <div class="mb-3">
               <label for="factura" class="form-label">Factura</label>
-              <input type="file" class="form-control" id="factura" name="factura" (change)="loadFile($event,'fac')">
+              <input type="file" class="form-control" accept="application/pdf"  id="factura" name="factura" (change)="loadFile($event,'fac')">
           </div>
           <button type="button" class="btn btn-primary w-100" (click)="save()">Enviar</button>
       </div>
@@ -85,45 +86,45 @@
         <h2 class="p-2"><i class="bi bi-list-ol"></i> Historial</h2>
       </div>
       <ul class="step">
-        <li class="step-item">
+        <li class="step-item" *ngFor="let item of dataEntry">
           <div class="step-content-wrapper">
             <div class="step-avatar">
-              <img class="step-avatar" src="https://ui-avatars.com/api/?name=juan&background=0D8ABC&color=fff&size=128" alt="jua">
+              <img class="step-avatar" src="https://ui-avatars.com/api/?name={{item.user?.userName}}&background=0D8ABC&color=fff&size=128" alt="jua">
             </div>
 
             <div class="step-content">
-              <h5 class="mb-1">Iana Robinson</h5>
+              <h5 class="mb-1">{{item.user?.userName}}</h5>
 
-              <p class="fs-5 mb-1">Uploaded weekly reports to the task</p>
+              <p class="fs-5 mb-1">{{item.coments}}</p>
 
               <ul class="list-group list-group-sm">
                 <!-- List Item -->
                 <li class="list-group-item list-group-item-light col-6">
                   <div class="row gx-1">
-                    <div class="col-6">
+                    <div class="col-6" *ngIf="item.evidenceName">
                       <!-- Media -->
                       <div class="d-flex">
                         <div class="flex-shrink-0">
                           <img class="avatar avatar-xs" src="https://htmlstream.com/preview/front-dashboard-v2.1.1/assets/svg/brands/pdf-icon.svg" alt="Image Description">
                         </div>
                         <div class="flex-grow-1 text-truncate ms-2">
-                          <span class="d-block fs-6 text-dark text-truncate" title="weekly-reports.xls">weekly-reports.xls</span>
-                          <span class="d-block small text-muted">12kb</span>
+                          <span class="d-block fs-6 text-dark text-truncate" title="weekly-reports.xls"><a href="{{api+'oc/materiales/evidencia/'+item.evidenceName}}" target="_blank">{{item.evidenceName}}</a></span>
+                          <span class="d-block small text-muted">{{item.evidenceFileSize}}kb</span>
                         </div>
                       </div>
                       <!-- End Media -->
                     </div>
                     <!-- End Col -->
 
-                    <div class="col-6">
+                    <div class="col-6" *ngIf="item.factName">
                       <!-- Media -->
                       <div class="d-flex">
                         <div class="flex-shrink-0">
                           <img class="avatar avatar-xs" src="https://htmlstream.com/preview/front-dashboard-v2.1.1/assets/svg/brands/pdf-icon.svg" alt="Image Description">
                         </div>
                         <div class="flex-grow-1 text-truncate ms-2">
-                          <span class="d-block fs-6 text-dark text-truncate" title="weekly-reports.xls">weekly-reports.xls</span>
-                          <span class="d-block small text-muted">4kb</span>
+                          <span class="d-block fs-6 text-dark text-truncate" title="weekly-reports.xls"><a href="{{api+'oc/materiales/fact/'+item.factName}}" target="_blank">{{item.factName}}</a></span>
+                          <span class="d-block small text-muted">{{item.factFileSize}}kb</span>
                         </div>
                       </div>
                       <!-- End Media -->
@@ -134,17 +135,7 @@
                 </li>
                 <!-- End List Item -->
               </ul>
-            </div>
-          </div>
-        </li>
-        <li class="step-item">
-          <div class="step-content-wrapper">
-            <span class="step-icon step-icon-soft-dark">B</span>
-
-            <div class="step-content">
-              <h5 class="mb-1">Bob Dean</h5>
-
-              <p class="fs-5 mb-1">Marked project status as <span class="badge bg-soft-primary text-primary rounded-pill"><span class="legend-indicator bg-primary"></span>"In progress"</span></p>
+              <p class="mb-1" style="font-size: 10px; font-weight: 900;">{{item.create_at | date:'dd/MM/yyyy hh:mm:ss'}}</p>
             </div>
           </div>
         </li>
