@@ -14,7 +14,9 @@ app.get('/*', (req, res) => {
 });
 
 // Iniciar el servidor en el puerto deseado
-const PORT = process.env.PORT || 3001;
-app.listen(PORT, () => {
-  console.log(`Servidor ejecutándose en http://localhost:${PORT}`);
+
+app.listen((process.env.PORT || 3001),()=>{
+    
+    console.log('Api ERP Cartolito corriendo en el puerto: ',app.get('port'));
+    //initConfig.verifyAdmin();
 });
