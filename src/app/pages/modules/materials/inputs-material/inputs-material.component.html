@@ -14,7 +14,7 @@
   <!-- Left Section -->
   <div class="col-md-8">
       <div class="card p-3">
-          <h5 class="card-title text-center">OC # <span class="text-muted">2021001</span></h5>
+          <h5 class="card-title text-center">{{isReq?'Req-':'OC-'}}{{folio}}<span class="text-muted"></span></h5>
           <hr>
           <div class="mb-3 col-4">
               <label for="search" class="form-label">Buscar</label>
@@ -30,7 +30,6 @@
             <table class="table text-center text-dark table-hover table-striped">
                 <thead class="table-primary">
                     <tr>
-                        <th>Entregado</th>
                         <th>Codigo</th>
                         <th>Producto</th>
                         <th>Unidad</th>
@@ -40,28 +39,17 @@
                     </tr>
                 </thead>
                 <tbody>
-                  <tr>
-                        <td><input type="checkbox" class="form-check-input" name="" id=""></td>
-                        <td></td>
-                        <td>Producto de prueba A</td>
-                        <td>Pz</td>
-                        <td>3</td>
+                  <tr *ngFor="let item of data.products;let i = index">
+                        <td>{{item.code}}</td>
+                        <td>{{item.name}}</td>
+                        <td>{{item.um}}</td>
+                        <td>{{item.quantity}}</td>
+                        <td>{{item.pending?item.pending:0}}</td>
                         <td>
-                          <input type="number" class="form-control form-control-sm">
+                          <input type="number" class="form-control form-control-sm" name="item.rec[{{i}}]" [(ngModel)]="item.rec[i]">
                         </td>
-                        <td></td>
+                        <td>{{item.price | currency:data.currencyType}}</td>
                       </tr>
-                      <tr>
-                        <td><input type="checkbox" class="form-check-input" name="" id=""></td>
-                        <td></td>
-                        <td>Producto de prueba B</td>
-                        <td>Pz</td>
-                        <td>2</td>
-                        <td>
-                          <input type="number" class="form-control form-control-sm">
-                        </td>
-                        <td></td>
-                    </tr>
                 </tbody>
             </table>
           </div>
