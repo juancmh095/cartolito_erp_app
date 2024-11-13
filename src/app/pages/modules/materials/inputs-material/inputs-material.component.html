@@ -34,6 +34,7 @@
                         <th>Producto</th>
                         <th>Unidad</th>
                         <th>Cantidad</th>
+                        <th>Pendiente</th>
                         <th>Recibí</th>
                         <th>Costo</th>
                     </tr>
@@ -46,7 +47,7 @@
                         <td>{{item.quantity}}</td>
                         <td>{{item.pending?item.pending:0}}</td>
                         <td>
-                          <input type="number" class="form-control form-control-sm" name="item.rec[{{i}}]" [(ngModel)]="item.rec[i]">
+                          <input type="number" class="form-control form-control-sm" min="0" name="item.rec" [(ngModel)]="item.rec">
                         </td>
                         <td>{{item.price | currency:data.currencyType}}</td>
                       </tr>
@@ -55,7 +56,7 @@
           </div>
           <div class="mb-3">
               <label for="notes" class="form-label">Notes</label>
-              <textarea class="form-control" id="notes" rows="3" placeholder="Thanks for your business"></textarea>
+              <textarea class="form-control" id="notes" rows="3" placeholder="Thanks for your business" [(ngModel)]="data.comentsMaterial" name="comentsMaterial"></textarea>
           </div>
       </div>
   </div>
@@ -64,18 +65,90 @@
   <div class="col-md-4">
       <div class="card p-3">
           <div class="form-check form-switch mb-3">
-              <input class="form-check-input" type="checkbox" id="entregaSinFactura" checked>
+              <input class="form-check-input" type="checkbox" id="entregaSinFactura" checked="{{notFact}}" [(ngModel)]="notFact" name="notFact">
               <label class="form-check-label" for="entregaSinFactura">Entrega Sin factura</label>
           </div>
-          <div class="mb-3">
+          <div class="mb-3" *ngIf="notFact">
               <label for="evidencia" class="form-label">Evidencia</label>
-              <input type="file" class="form-control" id="evidencia">
+              <input type="file" class="form-control" id="evidencia" name="evidencia" (change)="loadFile($event,'ev')">
           </div>
           <div class="mb-3">
               <label for="factura" class="form-label">Factura</label>
-              <input type="file" class="form-control" id="factura">
+              <input type="file" class="form-control" id="factura" name="factura" (change)="loadFile($event,'fac')">
           </div>
-          <button type="button" class="btn btn-primary w-100">Enviar</button>
+          <button type="button" class="btn btn-primary w-100" (click)="save()">Enviar</button>
       </div>
+  </div>
+  <div class="col-12 pt-4">
+    <div class="card p-3">
+      <div class="card-title">
+        <h2 class="p-2"><i class="bi bi-list-ol"></i> Historial</h2>
+      </div>
+      <ul class="step">
+        <li class="step-item">
+          <div class="step-content-wrapper">
+            <div class="step-avatar">
+              <img class="step-avatar" src="https://ui-avatars.com/api/?name=juan&background=0D8ABC&color=fff&size=128" alt="jua">
+            </div>
+
+            <div class="step-content">
+              <h5 class="mb-1">Iana Robinson</h5>
+
+              <p class="fs-5 mb-1">Uploaded weekly reports to the task</p>
+
+              <ul class="list-group list-group-sm">
+                <!-- List Item -->
+                <li class="list-group-item list-group-item-light col-6">
+                  <div class="row gx-1">
+                    <div class="col-6">
+                      <!-- Media -->
+                      <div class="d-flex">
+                        <div class="flex-shrink-0">
+                          <img class="avatar avatar-xs" src="https://htmlstream.com/preview/front-dashboard-v2.1.1/assets/svg/brands/pdf-icon.svg" alt="Image Description">
+                        </div>
+                        <div class="flex-grow-1 text-truncate ms-2">
+                          <span class="d-block fs-6 text-dark text-truncate" title="weekly-reports.xls">weekly-reports.xls</span>
+                          <span class="d-block small text-muted">12kb</span>
+                        </div>
+                      </div>
+                      <!-- End Media -->
+                    </div>
+                    <!-- End Col -->
+
+                    <div class="col-6">
+                      <!-- Media -->
+                      <div class="d-flex">
+                        <div class="flex-shrink-0">
+                          <img class="avatar avatar-xs" src="https://htmlstream.com/preview/front-dashboard-v2.1.1/assets/svg/brands/pdf-icon.svg" alt="Image Description">
+                        </div>
+                        <div class="flex-grow-1 text-truncate ms-2">
+                          <span class="d-block fs-6 text-dark text-truncate" title="weekly-reports.xls">weekly-reports.xls</span>
+                          <span class="d-block small text-muted">4kb</span>
+                        </div>
+                      </div>
+                      <!-- End Media -->
+                    </div>
+                    <!-- End Col -->
+                  </div>
+                  <!-- End Row -->
+                </li>
+                <!-- End List Item -->
+              </ul>
+            </div>
+          </div>
+        </li>
+        <li class="step-item">
+          <div class="step-content-wrapper">
+            <span class="step-icon step-icon-soft-dark">B</span>
+
+            <div class="step-content">
+              <h5 class="mb-1">Bob Dean</h5>
+
+              <p class="fs-5 mb-1">Marked project status as <span class="badge bg-soft-primary text-primary rounded-pill"><span class="legend-indicator bg-primary"></span>"In progress"</span></p>
+            </div>
+          </div>
+        </li>
+      </ul>
+    </div>
   </div>
 </div>

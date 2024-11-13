@@ -59,6 +59,19 @@ export class UtilsService {
     }
   }
 
+  convertFileToBase64(file:any) {
+    return new Promise((resolve, reject) => {
+        const reader:any = new FileReader();
+        reader.readAsDataURL(file); // Leer el archivo como Data URL
+        reader.onload = async (events: any) => {
+          console.log(events);
+          resolve(events.target.result);
+        }// Obtener solo la parte Base64
+
+    });
+}
+
+
   print(divId:any){
     // Obtener el contenido del div a imprimir
     var content = document.getElementById(divId)?.innerHTML;
