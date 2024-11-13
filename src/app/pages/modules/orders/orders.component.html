@@ -117,9 +117,10 @@
             </td>
             <td>
               <span *ngIf="item.status == 0" class="badge text-bg-primary">Por Aprobar</span>
-              <span *ngIf="item.status == 1" class="badge text-bg-secondary">En Compras</span>
-              <span *ngIf="item.status == 2" class="badge text-bg-success">Comprada</span>
-              <span *ngIf="item.status == 3" class="badge text-bg-danger">Declinada</span>
+              <span *ngIf="item.status == 1" class="badge text-bg-success">Aprobada</span>
+              <span *ngIf="item.status == 2" class="badge text-bg-danger">Cancelada</span>
+              <span *ngIf="item.status == 3" class="badge text-bg-warning">Entrega en proceso</span>
+              <span *ngIf="item.status == 4" class="badge text-bg-dark">Finalizada</span>
             </td>
             <td>{{item.dateCreate | date:'dd/MM/yyyy hh:mm:ss'}}</td>
             <td>{{item.Subtotal | currency:item.currencyType }}</td>
@@ -128,8 +129,20 @@
             <td>{{item.currencyType }}</td>
             <td>
               <div class="btn-group" role="group">
-                <a class="btn btn-white btn-sm">
-                  <i class="bi-pencil-fill me-1"></i> Cambiar Estatus
+                <a class="btn btn-white text-primary btn-sm" (click)="updateStatus(item._id,1)" *ngIf="item.status == 0">
+                  <i class="bi-clock-history me-1"></i> Por Aprobar
+                </a>
+                <a class="btn btn-white text-danger btn-sm" *ngIf="item.status == 2">
+                  <i class="bi-ban me-1"></i> Cancelada
+                </a>
+                <a class="btn btn-white text-success btn-sm" *ngIf="item.status == 1">
+                  <i class="bi-file-earmark-check me-1"></i> Aprobada
+                </a>
+                <a class="btn btn-white text-warning btn-sm" *ngIf="item.status == 3">
+                  <i class="bi-truck me-1"></i> Entrega en proceso
+                </a>
+                <a class="btn btn-white text-secondary btn-sm" *ngIf="item.status == 4">
+                  <i class="bi-check me-1"></i> Finalizada
                 </a>
 
                 <!-- Button Group -->
@@ -137,11 +150,14 @@
                   <button type="button" class="btn btn-white btn-icon btn-sm dropdown-toggle dropdown-toggle-empty" id="productsEditDropdown1" data-bs-toggle="dropdown" aria-expanded="false"></button>
 
                   <div class="dropdown-menu dropdown-menu-end mt-1" aria-labelledby="productsEditDropdown1">
-                    <a class="dropdown-item" href="#">
+                    <a class="dropdown-item" (click)="updateStatus(item._id,2)">
                       <i class="bi-x-lg dropdown-item-icon"></i> Cancelar
                     </a>
                     <a class="dropdown-item" href="{{api+'oc/pdf/'+item.folio}}" target="_blank">
                       <i class="bi-download dropdown-item-icon"></i> Descargar
+                    </a>
+                    <a class="dropdown-item" data-bs-toggle="modal" data-bs-target="#opdfModal" (click)="orderSelect = item">
+                      <i class="bi-eye dropdown-item-icon"></i> Visualizar
                     </a>
                     <a class="dropdown-item" href="#">
                       <i class="bi-send dropdown-item-icon"></i> Enviar Por correo
@@ -466,7 +482,7 @@
         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
       </div>
       <div class="modal-body">
-        <app-opdf></app-opdf>
+        <app-opdf [item]="orderSelect"></app-opdf>
       </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>

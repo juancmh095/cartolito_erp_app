@@ -16,9 +16,15 @@
       <div class="card p-3">
           <h5 class="card-title text-center">OC # <span class="text-muted">2021001</span></h5>
           <hr>
-          <div class="mb-3">
+          <div class="mb-3 col-4">
               <label for="search" class="form-label">Buscar</label>
-              <input type="text" class="form-control" id="search" placeholder="Orden de compra">
+              <div class="form-check">
+                <input class="form-check-input" type="checkbox" value="" id="flexCheckDefault" name="isReq" [(ngModel)]="isReq">
+                <label class="form-check-label" for="flexCheckDefault">
+                  Buscar Por Requisición
+                </label>
+              </div>
+              <input type="text" class="form-control" id="search" placeholder="{{isReq?'Requisición':'Orden de compra'}}" name="folio" [(ngModel)]="folio" (blur)="findOC()">
           </div>
           <div class="table-responsive">
             <table class="table text-center text-dark table-hover table-striped">

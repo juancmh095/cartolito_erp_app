@@ -7,22 +7,19 @@
 
     <div class="row mt-4">
         <div class="col-6">
-            <h6>Vendor</h6>
+            <h6>Proveedor</h6>
             <p>
-                [Company Name]<br>
-                [Street Address]<br>
-                [City, ST ZIP]<br>
-                Phone: (000) 000-0000<br>
-                Fax: (000) 000-0000
+                {{item.providerid?.businesName}}<br>
+                {{item.providerid?.RFC}}<br>
+                Phone: {{item.providerid?.phone}}<br>
+                Email: {{item.providerid?.email}}
             </p>
         </div>
         <div class="col-6">
             <h6>Ship To</h6>
             <p>
-                [Name]<br>
-                [Company Name]<br>
-                [Street Address]<br>
-                [City, ST ZIP]<br>
+                CARTOLITO SA DE CV<br>
+                {{item.branch?.address}}<br>
                 Phone: (000) 000-0000
             </p>
         </div>
@@ -30,37 +27,34 @@
 
     <div class="row">
         <div class="col-6">
-            <p><strong>Date:</strong> 9/17/2015</p>
+            <p><strong>Fecha:</strong> {{item.dateCreate | date:'dd/MM/yyyy'}}</p>
         </div>
         <div class="col-6 text-end">
-            <p><strong>PO #:</strong> [123456]</p>
+            <p><strong>Folio #:</strong> {{item.folio}}</p>
         </div>
     </div>
 
     <table class="table table-bordered mt-4">
         <thead class="table-primary">
             <tr>
-                <th>ITEM #</th>
-                <th>DESCRIPTION</th>
-                <th>QTY</th>
-                <th>UNIT PRICE</th>
-                <th>TOTAL</th>
+                <th>Partida</th>
+                <th>Req</th>
+                <th>Cantidad</th>
+                <th>Codigo</th>
+                <th>Descripción</th>
+                <th>Precio Unitario</th>
+                <th>Valor Total</th>
             </tr>
         </thead>
         <tbody>
-            <tr>
-                <td>[23423423]</td>
-                <td>Product XYZ</td>
-                <td>15</td>
-                <td>$150.00</td>
-                <td>$2,250.00</td>
-            </tr>
-            <tr>
-                <td>[45454546]</td>
-                <td>Product ABC</td>
-                <td>1</td>
-                <td>$75.00</td>
-                <td>$75.00</td>
+            <tr *ngFor="let p of item.products;let i = index">
+                <td>{{i+1}}</td>
+                <td>{{item.folioReq}}</td>
+                <td>{{p.quantity}}</td>
+                <td>{{p.code}}</td>
+                <td>{{p.name}}</td>
+                <td>{{p.price | currency:item.currencyType}}</td>
+                <td>{{(p.price * p.quantity) | currency:item.currencyType}}</td>
             </tr>
         </tbody>
     </table>
@@ -74,23 +68,31 @@
                 <tbody>
                     <tr>
                         <td class="text-end"><strong>Subtotal</strong></td>
-                        <td>$2,325.00</td>
+                        <td>{{item.Subtotal | currency:item.currencyType}}</td>
                     </tr>
                     <tr>
-                        <td class="text-end"><strong>Tax</strong></td>
-                        <td>$0.00</td>
+                        <td class="text-end"><strong>Flete</strong></td>
+                        <td>{{item.flete | currency:item.currencyType}}</td>
                     </tr>
                     <tr>
-                        <td class="text-end"><strong>Shipping</strong></td>
-                        <td>$0.00</td>
+                        <td class="text-end"><strong>IVA({{item.iva}})%</strong></td>
+                        <td>{{item.ivaTotal | currency:item.currencyType}}</td>
                     </tr>
                     <tr>
-                        <td class="text-end"><strong>Other</strong></td>
-                        <td>$0.00</td>
+                        <td class="text-end"><strong>ISR({{item.isr}})</strong></td>
+                        <td>{{item.isrTotal | currency:item.currencyType}}</td>
                     </tr>
+                    <tr>
+                      <td class="text-end"><strong>DESC({{item.descuento}})</strong></td>
+                      <td>{{item.descuentoTotal | currency:item.currencyType}}</td>
+                    </tr>
+                    <tr>
+                      <td class="text-end"><strong>IVA RETENIDO({{item.ivaR}})</strong></td>
+                      <td>{{item.ivaRetTotal | currency:item.currencyType}}</td>
+                  </tr>
                     <tr class="table-primary">
                         <td class="text-end"><strong>Total</strong></td>
-                        <td>$2,325.00</td>
+                        <td>{{item.Total | currency:item.currencyType}}</td>
                     </tr>
                 </tbody>
             </table>
@@ -99,14 +101,21 @@
 
     <div class="row mt-4">
         <div class="col">
-            <h6>Comments or Special Instructions:</h6>
-            <div class="border p-3" style="height: 100px;"></div>
+            <h6>Comentarios:</h6>
+            <div class="border p-3" style="height: 100px;">{{item.coments}}</div>
         </div>
     </div>
 
+    <div class="watermark" *ngIf="item.status == 2">CANCELADA</div>
+
     <div class="row mt-4">
-        <div class="col text-center">
-            <p>If you have any questions about this purchase order, please contact</p>
-            <p>[Name, Phone #, E-mail]</p>
+        <div class="col">
+            <p><strong>Planta</strong>: {{item.branch?.name}}</p>
+            <p><strong>Centro Costo</strong>: {{item.CC}}</p>
+            <p><strong>Uso principal</strong>: {{item.use}}</p>
+            <p><strong>No.Maquina</strong>: {{item.machineId?.description + ' ' + item.machineId?.trademark + ' MODELO: ' + item.machineId?.modelS + ' SERIE: ' + item.machineId?.serie}}</p>
+            <p><strong>Comentarios</strong>: {{item.coments}}</p>
+            <p><strong>Elaboró</strong>: {{item.user_create?.userName}}</p>
+            <p><strong>Moneda</strong>: {{item.currencyType}}</p>
         </div>
     </div>

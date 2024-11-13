@@ -40,6 +40,7 @@ export class OrdersComponent implements OnInit {
   data:any = [];
   modulo:any = 'Ordenes de Compra'
   api:any = environment.api;
+  orderSelect:any = {};
 
   constructor(
     private _utils:UtilsService,
@@ -203,5 +204,18 @@ export class OrdersComponent implements OnInit {
     this.formData.descuentoTotal = dest;
     this.formData.Total = this.formData.Subtotal + ivx - ivr - dest + this.formData.flete + isrT;
     console.log(ivx,ivr,this.formData);
+  }
+
+  async updateStatus(item:any,s:any){
+    console.log(item);
+    let response = await this._api.put('oc',{_id:item,status:s});
+    console.log(response);
+    if(response.status){
+      this._utils.showAlert('success',this.modulo,response.text)
+      this.getDataOC();
+    }else{
+      this._utils.showAlert('Error',this.modulo,response.text)
+    }
+
   }
 }
