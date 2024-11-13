@@ -14,7 +14,7 @@ app.get('/*', (req, res) => {
 });
 
 // Iniciar el servidor en el puerto deseado
-const PORT = process.env.PORT || 8080;
+const PORT = process.env.PORT;
 app.listen(PORT, () => {
   console.log(`Servidor ejecutándose en http://localhost:${PORT}`);
 });
